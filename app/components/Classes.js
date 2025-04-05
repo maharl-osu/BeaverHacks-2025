@@ -1,5 +1,5 @@
 "use client"
-import EventCard from "./EventCard";
+import ClassCard from "./ClassCard";
 import { useEffect, useState } from "react";
 
 export default function({shouldShow}) {
@@ -9,7 +9,7 @@ export default function({shouldShow}) {
     useEffect(() => {
         (async () => {
             try {
-                const res = await fetch('/api/event', {method: "GET"})
+                const res = await fetch('/api/class', {method: "GET"})
 
                 const body = await res.json()
 
@@ -29,7 +29,7 @@ export default function({shouldShow}) {
 
     function displayEvents() {
         return events.map((event) => {
-            return <EventCard description={event.description} creator={event.creatorID}  />
+            return <ClassCard description={event.description} creator={event.creatorID} cost={event.cost} />
         })
     }
 
