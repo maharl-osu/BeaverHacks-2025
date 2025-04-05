@@ -28,8 +28,8 @@ export default function({shouldShow}) {
     }
 
     function displayEvents() {
-        return events.map((event) => {
-            return <ClassCard description={event.description} creator={event.creatorID} cost={event.cost} />
+        return events.map((event, idx) => {
+            return <ClassCard key={idx} title={event.name} description={event.description} creator={event.creatorID} cost={event.cost} />
         })
     }
 

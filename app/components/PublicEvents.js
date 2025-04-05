@@ -29,8 +29,8 @@ export default function({shouldShow}) {
     }
 
     function displayEvents() {
-        return events.map((event) => {
-            return <EventCard description={event.description} creator={event.creatorID}  />
+        return events.map((event, idx) => {
+            return <EventCard key={idx} title={event.name} description={event.description} creator={event.creatorID}  />
         })
     }
 
