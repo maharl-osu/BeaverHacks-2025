@@ -2,12 +2,11 @@
 import EventCard from "./EventCard";
 import { useEffect, useState } from "react";
 
-export default function() {
+export default function({shouldShow}) {
 
     let [events, setEvents] = useState(null);
 
     useEffect(() => {
-
         (async () => {
             try {
                 const res = await fetch('/api/event', {method: "GET"})
@@ -34,8 +33,10 @@ export default function() {
         })
     }
 
+    let addedCSS = shouldShow ? "" : "hidden"
+
     return (
-      <div className="w-full flex flex-wrap">
+      <div className={"w-full flex flex-wrap " + addedCSS}>
         {events == null ? loading() : displayEvents()}
       </div>
     );
