@@ -1,5 +1,7 @@
 
+//todo: dont store duration in class and instead calculate it as needed
 export class Class{
+    name = ""
     creatorID = "" //UserID
     classID = ""
     description = ""
@@ -10,7 +12,8 @@ export class Class{
     zoomLink = ""
     cost = 0
 
-    constructor(_creatorID, _classID,_description, _date, _startTime, _endTime, _zoomLink, _cost){
+    constructor(_name,_creatorID, _classID,_description, _date, _startTime, _endTime, _zoomLink, _cost){
+        this.name = _name
         this.creatorID = _creatorID
         this.classID = _classID
         this.description = _description
