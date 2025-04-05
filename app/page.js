@@ -34,9 +34,9 @@ export default function Home() {
             </div>
         </div>
         <div className="w-full h-full">
-            <MyProfile shouldShow={page == "myprofile"} />
-            <Classes shouldShow={page == "classes"} />
-            <PublicEvents shouldShow={page == "events"} />
+            {page == "myprofile" && <MyProfile />}
+            {page == "classes" && <Classes />}
+            {page == "events" && <PublicEvents />}
         </div>
         </div>
     );

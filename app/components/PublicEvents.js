@@ -2,7 +2,7 @@
 import EventCard from "./EventCard";
 import { useEffect, useState } from "react";
 
-export default function({shouldShow}) {
+export default function() {
 
     let [events, setEvents] = useState(null);
 
@@ -34,10 +34,8 @@ export default function({shouldShow}) {
         })
     }
 
-    let addedCSS = shouldShow ? "" : "hidden"
-
     return (
-      <div className={"w-full flex flex-wrap " + addedCSS}>
+      <div className={"w-full flex flex-wrap "}>
         {events == null ? loading() : displayEvents()}
       </div>
     );
