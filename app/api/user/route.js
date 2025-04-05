@@ -1,6 +1,6 @@
-import {User} from "../backend/user.js"
+import {User} from "../../backend/user.js"
 
-
+//get user
 export async function GET(request){
     var dummyUser = new User(1,"TEST USER")
     dummyUser.addCredits(200)
@@ -9,3 +9,5 @@ export async function GET(request){
         headers: {'Content-Type':'application/json'}
     })
 }
+
+//create user

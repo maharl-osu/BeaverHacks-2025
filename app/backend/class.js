@@ -1,7 +1,8 @@
 
 export class Class{
-    creator = "" //UserID
+    creatorID = "" //UserID
     classID = ""
+    description = ""
     date = ""
     startTime = 0
     endTime = 0
@@ -9,9 +10,10 @@ export class Class{
     zoomLink = ""
     cost = 0
 
-    constructor(_creator, _classID, _date, _startTime, _endTime, _zoomLink, _cost){
-        this.creator = _creator
+    constructor(_creatorID, _classID,_description, _date, _startTime, _endTime, _zoomLink, _cost){
+        this.creatorID = _creatorID
         this.classID = _classID
+        this.description = _description
         this.date = _date
         this.startTime = _startTime
         this.endTime = _endTime
