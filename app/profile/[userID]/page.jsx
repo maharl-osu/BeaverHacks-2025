@@ -1,7 +1,7 @@
-import MyProfile from "./components/MyProfile";
+import MyProfile from "@/app/components/MyProfile";
 
 
-export default function Home() {
+export default function() {
     return (
         <div className="grid grid-cols-[min(300px,30%)_1fr] items-center justify-items-center min-h-screen gap-16 font-[family-name:var(--font-geist-sans)] bg-orange-900">
         <div className="bg-gray-95 shadow-2xl w-full h-full relative bg-black">
