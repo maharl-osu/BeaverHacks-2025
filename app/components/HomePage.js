@@ -1,6 +1,6 @@
 "use client"
 import MyProfile from "./MyProfile";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Classes from "./Classes";
 import PublicEvents from "./PublicEvents";
 import { useRouter } from "next/navigation";
@@ -9,9 +9,16 @@ import { toast } from "sonner";
 
 export default function() {
     let router = useRouter()
-    let [page, setPage] = useState("dashboard")
+    let [page, setPage] = useState("myprofile")
     let [name, setName] = useState("Loading...")
     let [credits, setCredits] = useState("Loading...")
+
+    let [filterOptions, setFilterOptions] = useState({})
+    let nameFilterRef = useRef()
+    let creatorFilterRef = useRef()
+    let minPriceRef = useRef()
+    let maxPriceRef = useRef()
+
     let debounce = false
 
     async function loadAccountDetails() {
@@ -54,6 +61,33 @@ export default function() {
         debounce = false
     }
 
+    function updateFilter() {
+        let name = nameFilterRef.current?.value
+        let creator = creatorFilterRef.current?.value
+        let min_price = minPriceRef.current?.value
+        let max_price = maxPriceRef.current?.value
+        if (name == null || creator == null || min_price == null || max_price == null) {
+            toast("Something Went Wrong", {description: "Failed To Apply Filter."})
+            return
+        }
+
+        if (name == "")
+            name = null
+        if (creator == "")
+            creator = null
+        if (min_price == "")
+            min_price = null
+        if (max_price == "")
+            max_price = null
+
+        setFilterOptions({
+            name: name,
+            creator: creator, 
+            minPrice: min_price,
+            maxPrice: max_price
+        })
+    }
+
     return (
         <div className="grid grid-cols-[min(300px,30%)_1fr] items-center justify-items-center min-h-screen gap-16 font-[family-name:var(--font-geist-sans)] bg-orange-900">
         <div className="bg-gray-95 shadow-lg shadow-black w-full h-[100vh] self-start sticky top-0 bg-gray-800">
@@ -72,19 +106,19 @@ export default function() {
                 <p>
                     Name
                 </p>
-                <input className="bg-white px-2 text-black w-full rounded-sm mb-1" placeholder="Event/Class Name" />
+                <input ref={nameFilterRef} className="bg-white px-2 text-black w-full rounded-sm mb-1" placeholder="Event/Class Name" />
                 <p>
                     Creator
                 </p>
-                <input className="bg-white px-2 text-black w-full rounded-sm mb-1" placeholder="John Doe" />
+                <input ref={creatorFilterRef} className="bg-white px-2 text-black w-full rounded-sm mb-1" placeholder="John Doe" />
                 <p>
                     Price
                 </p>
                 <div className="flex gap-5 mb-2">
-                    <input type="number" className="bg-white px-2 text-black w-[50%] rounded-sm" placeholder="Min" />
-                    <input type="number" className="bg-white px-2 text-black w-[50%] rounded-sm" placeholder="Max" />
+                    <input ref={minPriceRef} type="number" className="bg-white px-2 text-black w-[50%] rounded-sm" placeholder="Min" />
+                    <input ref={maxPriceRef} type="number" className="bg-white px-2 text-black w-[50%] rounded-sm" placeholder="Max" />
                 </div>
-                <button className="w-full bg-white text-black rounded-sm mb-2 active:bg-gray-600">Apply Filter</button>
+                <button onClick={updateFilter} className="w-full bg-white text-black rounded-sm mb-2 active:bg-gray-600">Apply Filter</button>
             </div>
             
             <div className="absolute bottom-0 w-full p-2">
@@ -108,7 +142,7 @@ export default function() {
         </div>
         <div className="w-full h-full">
             {page == "myprofile" && <MyProfile onRemove={loadAccountDetails} />}
-            {page == "classes" && <Classes onRegister={loadAccountDetails} />}
+            {page == "classes" && <Classes onRegister={loadAccountDetails} filter={filterOptions} />}
             {page == "events" && <PublicEvents />}
         </div>
         </div>

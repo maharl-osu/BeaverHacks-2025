@@ -5,30 +5,61 @@ import { useEffect, useState } from "react";
 import Rating from "./Rating";
 import { toast } from "sonner";
 
-export default function({onRegister}) {
+export default function({onRegister, filter}) {
 
     let [events, setEvents] = useState(null);
     let [detailEventIdx, setDetailEvent] = useState(null);
     let debounce = false
 
+    function eventMatchesFilter(event) {
+        if (filter == null)
+            return true
+        if (filter.name != null && !event.name.includes(filter.name))
+            return false
+        if (filter.creator != null && !event.creatorName.includes(filter.creator))
+            return false
+        if (filter.minPrice != null && event.cost < filter.minPrice)
+            return false
+        if (filter.maxPrice != null && event.cost > filter.maxPrice)
+            return false
+
+        return true
+    }
+
     useEffect(() => {
-        (async () => {
-            try {
-                const res = await fetch('/api/getClasses', {method: "GET"})
+        console.log("Loading!")
+        if (events == null) {
+            (async () => {
+                try {
+                    const res = await fetch('/api/getClasses', {method: "GET"})
+    
+                    const body = await res.json()
+    
+                    console.log(body)
 
-                const body = await res.json()
+                    for (const event of body) {
+                        event["show"] = eventMatchesFilter(event)
+                    }
+    
+                    setEvents(body)
+    
+                } catch (e) {
+                    console.log(e)
+                    toast("Failed To Load")
+                }
+            })()
+        } else {
+            let new_events = [...events]
 
-                console.log(body)
-
-                setEvents(body)
-
-            } catch (e) {
-                console.log(e)
-                toast("Failed To Load")
+            for (let event of new_events) {
+                event["show"] = eventMatchesFilter(event)
             }
-        })()
 
-    }, [])
+            setEvents(new_events)
+            console.log(new_events)
+        }
+
+    }, [filter])
 
     function loading() {
         return <div>Loading...</div>
@@ -65,6 +96,7 @@ export default function({onRegister}) {
 
     function displayClasses() {
         return events.map((event, idx) => {
+            if (!event["show"]) return
             let startDate = new Date(event.startTime)
             let weekday = WeekDayToString(startDate.getDay())
             let day = DayToString(startDate.getDate())
