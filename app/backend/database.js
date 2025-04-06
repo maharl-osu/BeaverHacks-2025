@@ -144,6 +144,9 @@ data:
     }
 
     async addEvent(){
-
+        var database = await Database.getDatabase()
+        if(Database.database == undefined){
+            throw "Database has not been loaded yet"
+        }
     }
 }
