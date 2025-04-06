@@ -3,11 +3,33 @@ import MyProfile from "./MyProfile";
 import { useState } from "react";
 import Classes from "./Classes";
 import PublicEvents from "./PublicEvents";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 
 export default function() {
-
+    let router = useRouter()
     let [page, setPage] = useState("dashboard")
+    let debounce = false
+
+    async function signOut() {
+        if (debounce) {return}
+        debounce = true
+
+        try {
+            const res = await fetch("/api/login", {method:"DELETE"})
+
+            if (res.status == 200) {
+                router.push("/signin")
+            } else {
+                toast("Something Went Wrong", "Please Try Again.")
+            }
+        } catch (e) {
+            toast("Something Went Wrong", "Please Try Again.")
+        }
+        
+        debounce = false
+    }
 
     return (
         <div className="grid grid-cols-[min(300px,30%)_1fr] items-center justify-items-center min-h-screen gap-16 font-[family-name:var(--font-geist-sans)] bg-orange-900">
@@ -53,7 +75,7 @@ export default function() {
                 <button className="bg-gray-200 text-black w-full rounded-sm mt-2 active:bg-gray-600" onClick={() => setPage("myprofile")} >
                     Profile
                 </button>
-                <button className="bg-gray-200 text-black w-full rounded-sm mt-2 active:bg-gray-600">
+                <button className="bg-gray-200 text-black w-full rounded-sm mt-2 active:bg-gray-600" onClick={() => signOut()}>
                     Sign Out
                 </button>
             </div>
