@@ -7,7 +7,7 @@ export default function({viewedProfile, setViewedProfile}) {
     
     let [user, setUser] = useState(null)
 
-    let [inputRating, setInputRating] = useState(0)
+    let [inputRating, setInputRating] = useState(3)
 
     let textRef = useRef()
 
@@ -73,7 +73,7 @@ export default function({viewedProfile, setViewedProfile}) {
     return (
         <div className="w-full h-full fixed bg-black/40 inset-0 flex items-center justify-center">
             <div className="bg-gray-700 relative w-[80%] h-[80%] max-w-4xl rounded-sm p-4">
-                <button onClick={() => {setViewedProfile(null); setInputRating(0)}} className="absolute -top-4 -right-4 w-fit h-fit bg-red-800 hover:bg-red-900 active:bg-red-950 p-2 rounded-sm">Close</button>
+                <button onClick={() => {setViewedProfile(null); setInputRating(3)}} className="absolute -top-4 -right-4 w-fit h-fit bg-red-800 hover:bg-red-900 active:bg-red-950 p-2 rounded-sm">Close</button>
                 {user != null ? renderUser() : loading()}
             </div>
         </div>
