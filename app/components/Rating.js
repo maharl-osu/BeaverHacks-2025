@@ -4,7 +4,7 @@ export default function({rating}) {
     let amts = []
     let color = "#888888"
 
-    if (rating == null) {
+    if (rating == null || rating < 0) {
         amts = [0.5, 0.5, 0.5, 0.5, 0.5]
     } else {
         color = "#EFBF04"
