@@ -88,7 +88,6 @@ export default function({onRemove}) {
                 })
             })
 
-            console.log(res.status)
             if (res.status == 200) {
                 setCreateModalOpen(false)
             } else {
@@ -117,12 +116,16 @@ export default function({onRemove}) {
     function renderTeachingClasses() {
         return teaching.map((event, idx) => {
             let startDate = new Date(event.startTime)
+            let endDate = new Date(event.endTime)
             let weekday = WeekDayToString(startDate.getDay())
             let day = DayToString(startDate.getDate())
             let month = MonthToString(startDate.getMonth())
             let start = startDate.toLocaleTimeString(undefined, {timeStyle: "short"})
-            let end = new Date(event.endTime).toLocaleTimeString(undefined, {timeStyle: "short"})
-            return <TeachingClassCard key={idx} onRemove={() => {unregister(event.classID, idx)}} numRegistered={event.registerCount} zoom={event.zoomLink} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
+            let end = endDate.toLocaleTimeString(undefined, {timeStyle: "short"})
+
+            let showDrop = ((startDate.getTime() - new Date().getTime()) / 60000) > 30
+
+            return <TeachingClassCard key={idx} onRemove={() => {stopTeaching(event.classID, idx)}} showDrop={showDrop} numRegistered={event.registerCount} zoom={event.zoomLink} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
         })
     }
 
@@ -196,7 +199,7 @@ export default function({onRemove}) {
                 let new_teaching = [...teaching]
                 new_teaching.splice(idx, 1)
 
-                setTeaching(new_registered)
+                setTeaching(new_teaching)
             } else {
                 toast("Something Went Wrong", {description: "Please Try Again."})
             }

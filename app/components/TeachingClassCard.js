@@ -1,6 +1,8 @@
 
 
-export default function({title, date, time, description, numRegistered, cost, zoom, onRemove}) {
+export default function({title, date, time, description, numRegistered, cost, zoom, onRemove, showDrop}) {
+    let dropColor = showDrop ? "bg-red-800 hover:bg-red-900 active:bg-red-950" : "bg-gray-700"
+
     return (
       <div className=" bg-gray-800 rounded-md w-80 h-fit shadow-md shadow-black pb-2 m-2">
         <h1 className="bg-gray-700 bg-cover h-fit p-2 rounded-t-md text-center text-2xl shadow-black shadow-xs">
@@ -18,15 +20,13 @@ export default function({title, date, time, description, numRegistered, cost, zo
         <p className="p-2 h-20 overflow-clip">
             Description: {description}
         </p>
-        {zoom &&
-            <a className="p-2 underline text-blue-400" href={zoom}>Zoom Link</a>
-        }
 
-        {!zoom &&
-            <button onClick={onRemove} className="m-2 w-[calc(100%-16px)] bg-red-800 px-4 py-2 rounded-sm hover:bg-red-900 active:bg-red-950 duration-100">
-                Drop Class <span className="text-gray-400">(${cost})</span>
-            </button>
-        }
+        <a className="p-2 underline text-blue-400" href={zoom}>Zoom Link</a>
+
+        <button onClick={onRemove} disabled={!showDrop} className={"m-2 w-[calc(100%-16px)] px-4 py-2 rounded-sm duration-100 " + dropColor}>
+            Drop Class <span className="text-gray-400">(${cost})</span>
+        </button>
+
       </div>
     );
   }
