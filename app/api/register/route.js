@@ -86,6 +86,8 @@ export async function POST(request){
         user.registeredClasses.push(_class.classID)
         console.log(user)
         await db.saveUser(user)
+        _class.registerCount += 1
+        await db.saveClass(_class)
         return new Response("registered",{"status":200})
     }else{
         return new Response("not enough credits",{"status":402})
@@ -125,6 +127,8 @@ export async function DELETE(request){
         user.registeredClasses.splice(index,1)
     }
     await db.saveUser(user)
+    _class.registerCount -= 1
+    await db.saveClass(_class)
     return new Response("removed",{"status":200})
 
 }

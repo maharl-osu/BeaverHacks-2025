@@ -234,4 +234,13 @@ data:
         const ref = database.db.collection("reviews").doc(id.toString())
         return await ref.get()
     }
+
+    async saveClass(_class){
+        var database = await Database.getDatabase()
+        if(Database.database == undefined){
+            throw "Database has not been loaded yet"
+        }
+        const docRef = database.db.collection("classes").doc(_class.classID.toString())
+        await docRef.set(_class)
+    }
 }
