@@ -100,7 +100,6 @@ export default function() {
 
             <div className="p-2">
                 <button className="bg-gray-200 text-black w-full rounded-sm mb-2 active:bg-gray-600" onClick={() => setPage("myprofile")} >Profile</button>
-                <button className="w-full bg-white text-black rounded-sm mb-2 active:bg-gray-600" onClick={() => setPage("events")} >Public Events</button>
                 <button className="w-full bg-white text-black rounded-sm mb-2 active:bg-gray-600" onClick={() => setPage("classes")} >Classes</button>
             </div>
 
