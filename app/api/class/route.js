@@ -66,8 +66,8 @@ export async function POST(request){
     }
     body.creatorID = session.id
     //TODO: verify this parsed properly
-    cost = Number(cost)
-    if(isNaN(cost)){
+    body.cost = Number(body.cost)
+    if(isNaN(body.cost)){
         return new Response("input error",{status:400})
     }
     //var dummyUser = new User(2,body.name)
