@@ -30,10 +30,12 @@ export async function POST(request){
     var result = await compare(body.password, dbData.hash)
     if(result){
         //setup session
+        console.log(dbData)
         session.isLoggedIn = true
-        session.username = dbData.username
-        session.id = dbData.userID
+        session.username = body.username
+        session.id = dbData.id
         await session.save()
+        console.log(session)
         return new Response("logged in",{
             status:200,
             headers: {'Content-Type':'application/text'}

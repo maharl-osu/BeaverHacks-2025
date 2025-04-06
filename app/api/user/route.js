@@ -16,7 +16,7 @@ export async function GET(request){
     if(params.get("id") == undefined){
         console.log(session)
         if(session.isLoggedIn){
-            var user = await db.getUser(session.userID)
+            var user = await db.getUser(session.id)
             return new Response(JSON.stringify(user),{
                 status:200,
                 headers: {'Content-Type':'application/json'}
