@@ -1,6 +1,6 @@
 
 
-export default function({title, creator, date, time, description, cost, onRemove}) {
+export default function({title, creator, date, time, description, cost, zoom, onRemove}) {
 
     return (
       <div className=" bg-gray-800 rounded-md w-80 h-fit shadow-md shadow-black pb-2 m-2">
@@ -19,9 +19,15 @@ export default function({title, creator, date, time, description, cost, onRemove
         <p className="p-2 h-20 overflow-clip">
             Description: {description}
         </p>
-        <button onClick={onRemove} className="m-2 w-[calc(100%-16px)] bg-red-800 px-4 py-2 rounded-sm hover:bg-red-900 active:bg-red-950 duration-100">
-            Unregister <span className="text-gray-400">(${cost})</span>
-        </button>
+        {zoom &&
+            <a className="p-2 underline text-blue-400" href={zoom}>Zoom Link</a>
+        }
+
+        {!zoom &&
+            <button onClick={onRemove} className="m-2 w-[calc(100%-16px)] bg-red-800 px-4 py-2 rounded-sm hover:bg-red-900 active:bg-red-950 duration-100">
+                Unregister <span className="text-gray-400">(${cost})</span>
+            </button>
+        }
       </div>
     );
   }
