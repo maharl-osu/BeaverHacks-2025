@@ -13,8 +13,12 @@ export async function GET(request){
     var user = await db.getUser(session.id)
     var registeredClasses = user.registeredClasses
     var registrationCounts = await registrationTotals(await db.getAllUsers())
+    var toReturn = []
     //console.log(session)
     for(var _class of classes){
+        if(_class.endTime.getTime() < new Date().getTime()){
+            continue
+        }
         //check if you have access to the zoomLink
         var access = false
         if(session.isLoggedIn){
@@ -38,8 +42,9 @@ export async function GET(request){
         if(!(_class.creatorID == session.id || access)){
             _class.zoomLink = undefined
         }
+        toReturn.push(_class)
     }
-    return new Response(JSON.stringify(classes),{
+    return new Response(JSON.stringify(toReturn),{
         status:200,
         headers: {'Content-Type':'application/json'}
     })
