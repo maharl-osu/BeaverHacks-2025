@@ -32,6 +32,7 @@ export async function GET(request){
 
     //remove sensitive information if you are not this user
     var user = await db.getUser(params.get("id"))
+    user.reviews = user.reviews.reverse() 
     if(!session.isLoggedIn || session.id != user.userID){
         user.credits = undefined
         user.registeredClasses = undefined
