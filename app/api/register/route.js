@@ -4,7 +4,6 @@ import {User} from "../../backend/user"
 import {cookies} from 'next/headers'
 import {getIronSession} from 'iron-session'
 import {defaultSession, sessionOptions,registrationTotals} from "../lib"
-import { undefined } from "../getClasses/route";
 
 export async function GET(request){
     var db = await Database.getDatabase()
