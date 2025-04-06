@@ -71,7 +71,7 @@ export default function({onRegister}) {
             let month = MonthToString(startDate.getMonth())
             let start = startDate.toLocaleTimeString(undefined, {timeStyle: "short"})
             let end = new Date(event.endTime).toLocaleTimeString(undefined, {timeStyle: "short"})
-            return <ClassCard onRegister={() => {register(event["classID"], idx)}} key={idx} registered={event.registered} creator={event["creatorName"]} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
+            return <ClassCard onRegister={() => {register(event["classID"], idx)}} key={idx} numRegistered={event.registerCount} registered={event.registered} creator={event["creatorName"]} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
         })
     }
 
@@ -93,6 +93,9 @@ export default function({onRegister}) {
                             Instructor: {detailEvent.creatorName}
                         </p>
                         <Rating rating={detailEvent.creatorRating} />
+                        <p>
+                            Students Registered: {detailEvent.registerCount}
+                        </p>
                         <p>
                             Cost: ${detailEvent.cost}
                         </p>

@@ -1,7 +1,6 @@
 
 
-export default function({title, creator, date, time, description, cost, zoom, onRemove}) {
-
+export default function({title, creator, date, time, description, numRegistered, cost, zoom, onRemove}) {
     return (
       <div className=" bg-gray-800 rounded-md w-80 h-fit shadow-md shadow-black pb-2 m-2">
         <h1 className="bg-gray-700 bg-cover h-fit p-2 rounded-t-md text-center text-2xl shadow-black shadow-xs">
@@ -15,6 +14,9 @@ export default function({title, creator, date, time, description, cost, zoom, on
         </p>
         <p className="px-2 text-gray-300">
             {time}
+        </p>
+        <p className="pl-2">
+            Students Registered: {numRegistered}
         </p>
         <p className="p-2 h-20 overflow-clip">
             Description: {description}

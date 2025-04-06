@@ -1,6 +1,9 @@
 
 
-export default function({title, creator, date, time, description, cost, registered, onViewDetails, onRegister}) {
+export default function({title, creator, date, time, description, cost, registered, numRegistered, onViewDetails, onRegister}) {
+    
+    let registerColor = registered ? "bg-green-800 hover:bg-green-900 active:bg-green-950" : "bg-gray-950 hover:bg-gray-900 active:bg-gray-950"
+
     return (
       <div className=" bg-gray-800 rounded-md w-80 h-fit shadow-md shadow-black pb-2 m-2">
         <h1 className="bg-gray-700 bg-cover h-fit p-2 rounded-t-md text-center text-2xl shadow-black shadow-xs">
@@ -15,10 +18,13 @@ export default function({title, creator, date, time, description, cost, register
         <p className="px-2 text-gray-300">
             {time}
         </p>
+        <p className="pl-2">
+            Students Registered: {numRegistered}
+        </p>
         <p className="p-2 h-20 overflow-clip">
             Description: {description}
         </p>
-        <button onClick={onRegister} className="m-2 w-[calc(100%-16px)] bg-gray-950 px-4 py-2 rounded-sm hover:bg-gray-900 active:bg-gray-950 duration-100">
+        <button onClick={registered ? null : onRegister} className={"m-2 w-[calc(100%-16px)] px-4 py-2 rounded-sm duration-100 " + registerColor}>
             {registered ? "Registered" : "Register"} <span className="text-gray-400">(${cost})</span>
         </button>
         <button className="m-2 w-[calc(100%-16px)] bg-blue-800 px-4 py-2 rounded-sm hover:bg-blue-900 active:bg-blue-950 duration-100" onClick={onViewDetails}>
