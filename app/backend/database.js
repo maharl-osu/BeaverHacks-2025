@@ -1,6 +1,13 @@
 const {getApps, initializeApp, applicationDefault, cert } = require('firebase-admin/app');
 const { getFirestore, Timestamp, FieldValue, Filter } = require('firebase-admin/firestore');
 
+const {onTaskDispatched} = require("firebase-functions/v2/tasks");
+const {onRequest, HttpsError} = require("firebase-functions/v2/https");
+const {getFunctions} = require("firebase-admin/functions");
+const {logger} = require("firebase-functions/v2");
+const {GoogleAuth} = require("google-auth-library");
+
+
 const serviceAccount = require('../../hackathon-455921-8d8b3ed87f1a.json');
 
 import {User} from "./user"
@@ -9,6 +16,7 @@ import {Class} from "./class"
 export class Database{
     database = null
     db = null
+    auth = null
 
     constructor(_db) {
         this.db = _db
@@ -100,6 +108,36 @@ export class Database{
         return toReturn
     }
 
+    async getFunctionUrl(name, location="us-central1") {
+        if (!Database.auth) {
+          Database.auth = new GoogleAuth({
+            scopes: "https://www.googleapis.com/auth/cloud-platform",
+          });
+        }
+        const projectId = await Database.auth.getProjectId();
+        const url = "https://cloudfunctions.googleapis.com/v2beta/" +
+          `projects/${projectId}/locations/${location}/functions/${name}`;
+      
+        const client = await Database.auth.getClient();
+        const res = await client.request({url});
+        const uri = res.data?.serviceConfig?.uri;
+        if (!uri) {
+          throw new Error(`Unable to retreive uri for function at ${url}`);
+        }
+        return uri;
+      }
+
+    async scheduleDelete(_class){
+        
+        const queue = getFunctions().taskQueue("deleteClass");
+        const targetUri = await this.getFunctionUrl("deleteClass");
+        const scheduleDelaySeconds = 0
+        await queue.enqueue({"id":_class.classID},{
+            scheduleDelaySeconds,
+            dispatchDeadlineSeconds:60*5,
+            uri:targetUri
+        })
+    }
 
 /*
 data:
@@ -125,8 +163,8 @@ data:
 
         const docRef = database.db.collection("classes").doc(classID.toString())
         data["classID"] = classID
-
         await docRef.set(data)
+        await this.scheduleDelete(data)
     }
 
 

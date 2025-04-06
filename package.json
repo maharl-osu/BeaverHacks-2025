@@ -12,6 +12,8 @@
     "bcrypt": "^5.1.1",
     "beaverhacks-2025": "file:",
     "firebase-admin": "^13.2.0",
+    "firebase-functions": "^6.3.2",
+    "google-auth-library": "^9.15.1",
     "iron-session": "^8.0.4",
     "next": "^15.2.4",
     "react": "^19.1.0",
