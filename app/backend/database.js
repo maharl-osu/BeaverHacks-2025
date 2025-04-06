@@ -117,7 +117,6 @@ data:
         if(Database.database == undefined){
             throw "Database has not been loaded yet"
         }
-        console.log(data)
         const idRef = await database.db.collection("classes").doc("nextID").get()
         var nextID = idRef.data()
         var classID = nextID.next
@@ -195,5 +194,44 @@ data:
         const ref = database.db.collection("hashes").doc(username)
         console.log({"hash":hash,"id":id})
         await ref.set({"hash":hash,"id":id})
+    }
+
+    /*
+    data{
+        starRating
+        text
+        creator    
+    }
+    */
+    async addReview(data,targetID){
+        var database = await Database.getDatabase()
+        if(Database.database == undefined){
+            throw "Database has not been loaded yet"
+        }
+        const idRef = await database.db.collection("reviews").doc("nextID").get()
+        var nextID = idRef.data()
+        var reviewID = nextID.next
+        await database.db.collection("reviews").doc("nextID").set({"next":reviewID + 1})
+        data["reviewID"] = reviewID
+        const ref = database.db.collection("reviews").doc(reviewID.toString())
+        await ref.set(data)
+        //add review to targets profile
+        var target = await this.getUser(targetID)
+        target.reviews.push(data)
+        target.Rating = 0
+        for(var review of target.reviews){
+            console.log(review)
+            target.Rating += review.starRating / target.reviews.length
+        }
+        await this.saveUser(target)
+    }
+
+    async getReview(id){
+        var database = await Database.getDatabase()
+        if(Database.database == undefined){
+            throw "Database has not been loaded yet"
+        }
+        const ref = database.db.collection("reviews").doc(id.toString())
+        return await ref.get()
     }
 }
