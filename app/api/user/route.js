@@ -17,6 +17,7 @@ export async function GET(request){
         console.log(session)
         if(session.isLoggedIn){
             var user = await db.getUser(session.id)
+            user.registeredClasses = user.registeredClasses.reverse() 
             return new Response(JSON.stringify(user),{
                 status:200,
                 headers: {'Content-Type':'application/json'}

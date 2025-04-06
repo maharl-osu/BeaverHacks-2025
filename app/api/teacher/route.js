@@ -15,6 +15,7 @@ export async function GET(request){
     var toReturn = []
     var registrationCounts = await registrationTotals(await db.getAllUsers())
     for(var _class of classes){
+        
         _class.registerCount = registrationCounts[_class.classID]
         if(_class.registerCount == undefined){_class.registerCount = 0}
         if(_class.creatorID == session.id){

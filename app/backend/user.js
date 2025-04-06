@@ -24,6 +24,13 @@ export class User{
 
     }
 
+    removeClass(id){
+        var index = this.registeredClasses.indexOf(id)
+        if(index > -1){
+            this.registeredClasses.splice(index,1)
+        }
+    }
+
     static fromDB(dbO){
         var toReturn = new User(dbO.userID,dbO.username,dbO.name)
         toReturn.addCredits(dbO.credits)
