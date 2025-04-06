@@ -100,7 +100,7 @@ data:
         if(Database.database == undefined){
             throw "Database has not been loaded yet"
         }
-
+        console.log(data)
         const idRef = await database.db.collection("classes").doc("nextID").get()
         var nextID = idRef.data()
         var classID = nextID.next
