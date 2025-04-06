@@ -78,6 +78,9 @@ export class Database{
             throw "user does not exist"
         }
         var data = match.data()
+        if(data.registeredClasses == undefined){
+            data.registeredClasses = []
+        }
         return User.fromDB(data)
     }
 
