@@ -43,7 +43,7 @@ export async function GET(request){
         }
        
         //remove the zoom link if you arent registered or hosting an event
-        if(_class.creatorID == session.id || access){
+        if(access){
             toReturn.push(_class)
         }
     }
