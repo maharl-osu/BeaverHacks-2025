@@ -1,5 +1,8 @@
 import {User} from "../../backend/user.js"
 import {Database} from "../../backend/database.js"
+import {cookies} from 'next/headers'
+import {getIronSession} from 'iron-session'
+import {defaultSession, sessionOptions} from "../lib"
 
 //get user
 //params - id of user to get
@@ -9,6 +12,24 @@ export async function GET(request){
     //dummyUser.addCredits(200)
     var db = await Database.getDatabase()
     var params = request.nextUrl.searchParams
+    const session = await getIronSession(await cookies(),sessionOptions)
+    if(params.get("id") == undefined){
+        console.log(session)
+        if(session.isLoggedIn){
+            var user = await db.getUser(session.userID)
+            return new Response(JSON.stringify(user),{
+                status:200,
+                headers: {'Content-Type':'application/json'}
+            })
+        }else{
+            return new Response("no id provided",{
+                status:400,
+                headers: {'Content-Type':'application/text'}
+            })
+        }
+    }
+
+
     var user = await db.getUser(params.get("id"))
     return new Response(JSON.stringify(user),{
         status:200,
@@ -21,6 +42,7 @@ export async function GET(request){
 //  name: name of the user
 //  username: username of the user
 //}
+//TODO: remove, made obselete by login
 export async function POST(request){
     const body = await request.json()
 

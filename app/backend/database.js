@@ -28,6 +28,20 @@ export class Database{
         return Database.database
     } 
 
+    async saveUser(user){
+        const docRef = database.db.collection("users").doc(user.userID.toString())
+        var toSave = {  
+            "userID" : user.userID,
+            "name" : user.name,
+            "credits" : user.credits,
+            "Rating" : user.Rating,
+            "reviews" : user.reviews,
+            "username":user.username,
+            "registeredClasses":user.registeredClasses
+        }
+        await docRef.set(toSave)
+    }
+
     async addUser(data){
         var database = await Database.getDatabase()
         if(Database.database == undefined){
@@ -37,20 +51,16 @@ export class Database{
         var nextID = userID.data()
         userID = nextID.next
         await database.db.collection("users").doc("nextID").set({"next":userID + 1})
-
+        
         var user = new User(userID,data.username,data.name)
-        const docRef = database.db.collection("users").doc(user.userID.toString())
-        var toSave = {  
-            "userID" : user.userID,
-            "name" : user.name,
-            "credits" : user.credits,
-            "Rating" : user.Rating,
-            "reviews" : user.reviews,
-            "username":user.username
-        }
-        console.log(toSave)
-        await docRef.set(toSave)
+        await this.saveUser(user)
         return user
+    }
+
+    async addCredits(userID,ammount){
+        var user = await this.getUser(userID)
+        user.addCredits(ammount)
+        this.saveUser(user)
     }
 
     async getUser(userID){

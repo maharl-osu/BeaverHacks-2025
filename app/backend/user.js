@@ -7,6 +7,7 @@ export class User{
     credits = 0
     Rating = 5
     reviews = []
+    registeredClasses = [] //array of class ids
 //TODO: hashed password
 //TODO: signed up classes and events
 
@@ -28,6 +29,7 @@ export class User{
     static fromDB(dbO){
         var toReturn = new User(dbO.userID,dbO.username,dbO.name)
         toReturn.addCredits(dbO.credits)
+        toReturn.registeredClasses = dbO.registeredClasses
         return toReturn
     }
 }
