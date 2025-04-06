@@ -3,6 +3,7 @@ import { SessionOptions } from "iron-session";
 
 export const defaultSession = {
   username: "",
+  name:"",
   userID: -1,
   isLoggedIn: false
 };

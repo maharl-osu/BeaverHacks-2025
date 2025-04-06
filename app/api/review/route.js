@@ -34,6 +34,7 @@ export async function POST(request){
     var body = await request.json()
     if(session.isLoggedIn){
         body["creatorID"] = session.id
+        body["creatorName"] = session.name
         var db = await Database.getDatabase()
         await db.addReview(body,body["target"])
         return new Response("review added",{

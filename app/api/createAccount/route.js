@@ -23,6 +23,7 @@ export async function POST(request){
     session.isLoggedIn = true
     session.username = user.username
     session.id = user.userID
+    session.name = body.name
     await session.save()
     return new Response("logged in",{
         status:200,
