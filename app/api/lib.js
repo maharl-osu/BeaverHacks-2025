@@ -23,6 +23,14 @@ export function sleep() {
 export async function registrationTotals(users){
     var totals = {}
     for(var user of users){
-        var classes = users.registeredClasses
+        var classes = user.registeredClasses
+        for(var _class of classes){
+            if(totals[_class.toString()] == undefined){
+                totals[_class.toString()] = 1
+            }else{
+                totals[_class.toString()] += 1
+            }
+        }
     }
+    return totals
 }

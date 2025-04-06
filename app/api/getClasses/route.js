@@ -3,7 +3,7 @@ import {Class} from "../../backend/class"
 import {Database} from "../../backend/database"
 import {cookies} from 'next/headers'
 import {getIronSession} from 'iron-session'
-import {defaultSession, sessionOptions} from "../lib"
+import {defaultSession, sessionOptions,registrationTotals} from "../lib"
 
 export async function GET(request){
     var db = await Database.getDatabase()
@@ -12,6 +12,7 @@ export async function GET(request){
     var classes = await db.getClasses() 
     var user = await db.getUser(session.id)
     var registeredClasses = user.registeredClasses
+    var registrationCounts = await registrationTotals(await db.getAllUsers())
     //console.log(session)
     for(var _class of classes){
         //check if you have access to the zoomLink
@@ -22,6 +23,8 @@ export async function GET(request){
         var creator = await db.getUser(_class.creatorID)
         _class.creatorName = creator.name 
         _class.creatorRating = creator.Rating
+        _class.registerCount = registrationCounts[_class.classID]
+        if(_class.registerCount == undefined){_class.registerCount = 0}
 
         //only let someone registered see the zoom link if we are close to a class starting
         if(_class.creatorID != session.id && _class.startTime.getTime() - new Date().getTime() < 30 * 60000){
