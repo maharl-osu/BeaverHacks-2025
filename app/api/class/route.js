@@ -102,7 +102,7 @@ export async function DELETE(request){
     var db = await Database.getDatabase()
     var _class = await db.getClass(body.classID)
 
-    if(session.id ==_class.creatorID){
+    if(session.id ==_class.creatorID && !(_class.startTime.getTime() - new Date().getTime() < 30 * 60000)){
         //check which users are registered for this class
         var users = await db.getAllUsers()
         users = users.filter((user) => user.registeredClasses.indexOf(_class.classID) > -1)

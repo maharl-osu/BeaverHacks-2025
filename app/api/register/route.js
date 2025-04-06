@@ -59,6 +59,10 @@ export async function POST(request){
     if(!session.isLoggedIn){
         return new Response("not logged in",{"status":400})
     }
+    //check if you are too close
+    if(_class.startTime.getTime() - new Date().getTime() < 30 * 60000){
+        return new Response("too close to sign up",{"status":403})
+    }
     
     //check if you have enough credits
     var db = await Database.getDatabase()
@@ -102,6 +106,10 @@ export async function DELETE(request){
     //check if you are registered for this class
     if(user.registeredClasses.indexOf(_class.classID) == -1){
         return new Response("not registered",{"status":409})
+    }
+
+    if(_class.startTime.getTime() - new Date().getTime() < 30 * 60000){
+        return new Response("too close to quit",{"status":403})
     }
     //check if you have enough credits
     user.addCredits(_class.cost)
