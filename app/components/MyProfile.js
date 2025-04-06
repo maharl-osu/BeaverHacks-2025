@@ -221,7 +221,7 @@ export default function({onRemove}) {
         <div className={"p-20"}>
             <h1 className="text-5xl mb-10">My Profile</h1>
 
-            <button onClick={() => setCreateModalOpen(true)} className="text-xl bg-gray-800 rounded-sm mb-4 p-2 hover:bg-gray-900 active:bg-gray-950">Create Class</button>
+            <button onClick={() => setCreateModalOpen(true)} className="text-xl bg-gray-800 rounded-sm mb-4 p-2 shadow-sm shadow-black hover:bg-gray-900 active:bg-gray-950">Create Class</button>
 
             <h1 className="text-2xl">Classes I'm Teaching</h1>
             <div className="flex flex-wrap mb-10">
