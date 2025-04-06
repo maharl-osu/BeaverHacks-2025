@@ -102,24 +102,27 @@ export default function() {
                 <button className="w-full bg-white text-black rounded-sm mb-2 active:bg-gray-600" onClick={() => setPage("events")} >Public Events</button>
                 <button className="w-full bg-white text-black rounded-sm mb-2 active:bg-gray-600" onClick={() => setPage("classes")} >Classes</button>
             </div>
-            <div className="p-4 mt-10">
-                <p>
-                    Name
-                </p>
-                <input ref={nameFilterRef} className="bg-white px-2 text-black w-full rounded-sm mb-1" placeholder="Event/Class Name" />
-                <p>
-                    Creator
-                </p>
-                <input ref={creatorFilterRef} className="bg-white px-2 text-black w-full rounded-sm mb-1" placeholder="John Doe" />
-                <p>
-                    Price
-                </p>
-                <div className="flex gap-5 mb-2">
-                    <input ref={minPriceRef} type="number" className="bg-white px-2 text-black w-[50%] rounded-sm" placeholder="Min" />
-                    <input ref={maxPriceRef} type="number" className="bg-white px-2 text-black w-[50%] rounded-sm" placeholder="Max" />
+
+            {page == "classes" &&
+                <div className="p-4 mt-10">
+                    <p>
+                        Name
+                    </p>
+                    <input ref={nameFilterRef} className="bg-white px-2 text-black w-full rounded-sm mb-1" placeholder="Event/Class Name" />
+                    <p>
+                        Creator
+                    </p>
+                    <input ref={creatorFilterRef} className="bg-white px-2 text-black w-full rounded-sm mb-1" placeholder="John Doe" />
+                    <p>
+                        Price
+                    </p>
+                    <div className="flex gap-5 mb-2">
+                        <input ref={minPriceRef} type="number" className="bg-white px-2 text-black w-[50%] rounded-sm" placeholder="Min" />
+                        <input ref={maxPriceRef} type="number" className="bg-white px-2 text-black w-[50%] rounded-sm" placeholder="Max" />
+                    </div>
+                    <button onClick={updateFilter} className="w-full bg-white text-black rounded-sm mb-2 active:bg-gray-600">Apply Filter</button>
                 </div>
-                <button onClick={updateFilter} className="w-full bg-white text-black rounded-sm mb-2 active:bg-gray-600">Apply Filter</button>
-            </div>
+            }
             
             <div className="absolute bottom-0 w-full p-2">
                 <p className="inline">
