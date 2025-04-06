@@ -16,6 +16,12 @@ export async function GET(request){
 }
 
 //login
+/*
+body{
+    username
+    password
+}
+*/
 export async function POST(request){
     const session = await getIronSession(await cookies(),sessionOptions)
     var body = await request.json()

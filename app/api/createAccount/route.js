@@ -4,7 +4,13 @@ import {sessionOptions} from "../lib"
 import {Database} from "../../backend/database"
 import {genSalt,hash,compare} from "bcrypt"
 
-
+/*
+body{
+    name
+    username
+    password
+}
+*/
 export async function POST(request){
     var body = await request.json()
     const session = await getIronSession(await cookies(),sessionOptions)
