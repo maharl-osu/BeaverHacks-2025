@@ -21,7 +21,7 @@ export default function({title, creator, date, time, description, cost, register
         <button onClick={onRegister} className="m-2 w-[calc(100%-16px)] bg-gray-950 px-4 py-2 rounded-sm hover:bg-gray-900 active:bg-gray-950 duration-100">
             {registered ? "Registered" : "Register"} <span className="text-gray-400">(${cost})</span>
         </button>
-        <button className="m-2 w-[calc(100%-16px)] bg-blue-800 px-4 py-2 rounded-sm hover:bg-blue-900 active:bg-blue-950 duration-100" onClick={registered ? null : onViewDetails}>
+        <button className="m-2 w-[calc(100%-16px)] bg-blue-800 px-4 py-2 rounded-sm hover:bg-blue-900 active:bg-blue-950 duration-100" onClick={onViewDetails}>
             View Details
         </button>
       </div>
