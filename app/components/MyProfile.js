@@ -253,13 +253,10 @@ export default function({onRemove}) {
             <div className="flex flex-wrap mb-10">
                 {registered && renderRegisteredClasses()}
             </div>
-            
-
-            <h1 className="text-2xl mb-10">Registered Events</h1>
 
             <h1 className="text-2xl">Overall Rating</h1>
             {user && <Rating rating={user.Rating}/>}
-            <h1 className="text-2xl mt-10">Reviews</h1>
+            <h1 className="text-2xl mt-10">Reviews ({user.reviews.length})</h1>
 
             {createModalOpen && renderCreateModal()}
             <Profile viewedProfile={viewedProfile} setViewedProfile={setViewedProfile} />
