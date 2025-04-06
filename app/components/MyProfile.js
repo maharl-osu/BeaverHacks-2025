@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import RegisteredClassCard from "./RegisteredClassCard";
 import { DayToString, MonthToString, WeekDayToString } from "../util/dateHelper";
+import TeachingClassCard from "./TeachingClassCard";
 
 export default function({onRemove}) {
 
@@ -121,7 +122,7 @@ export default function({onRemove}) {
             let month = MonthToString(startDate.getMonth())
             let start = startDate.toLocaleTimeString(undefined, {timeStyle: "short"})
             let end = new Date(event.endTime).toLocaleTimeString(undefined, {timeStyle: "short"})
-            return <RegisteredClassCard key={idx} onRemove={() => {unregister(event.classID, idx)}} numRegistered={event.registerCount} zoom={event.zoomLink} creator={event["creatorName"]} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
+            return <TeachingClassCard key={idx} onRemove={() => {unregister(event.classID, idx)}} numRegistered={event.registerCount} zoom={event.zoomLink} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
         })
     }
 
