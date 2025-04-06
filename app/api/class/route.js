@@ -1,8 +1,6 @@
 import {Class} from "../../backend/class"
 import {Database} from "../../backend/database"
 //getClass
-
-
 //params: id - the id of the class to get
 //example: http://localhost:3000/api/class?id=1
 export async function GET(request){
@@ -14,6 +12,8 @@ export async function GET(request){
         headers: {'Content-Type':'application/json'}
     })
 }
+
+
 /*createClass
 request body{
 
