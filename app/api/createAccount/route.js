@@ -19,7 +19,7 @@ export async function POST(request){
     session.id = user.userID
     await session.save()
     return new Response("logged in",{
-        status:201,
+        status:200,
         headers: {'Content-Type':'application/text'}
     })
 }

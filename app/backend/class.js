@@ -5,10 +5,8 @@ export class Class{
     creatorID = "" //UserID
     classID = ""
     description = ""
-    date = ""
     startTime = 0
     endTime = 0
-    duration = 0
     zoomLink = ""
     cost = 0
 
@@ -17,10 +15,10 @@ export class Class{
         this.creatorID = _creatorID
         this.classID = _classID
         this.description = _description
-        this.date = _date
-        this.startTime = _startTime
-        this.endTime = _endTime
-        this.duration = _endTime - _startTime
+        this.startTime = new Date(_startTime)
+        this.endTime = new Date(_endTime)
+        //TODO: change with date time objects
+        this.duration = (this.endTime.getTime() - this.startTime.getTime())/60000
         this.zoomLink = _zoomLink
         this.cost = _cost
     }

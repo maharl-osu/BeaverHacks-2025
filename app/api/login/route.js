@@ -29,12 +29,12 @@ export async function POST(request){
         session.id = dbData.userID
         await session.save()
         return new Response("logged in",{
-            status:201,
+            status:200,
             headers: {'Content-Type':'application/text'}
         })
     }else{
         return new Response("not logged in",{
-            status:401,
+            status:400,
             headers: {'Content-Type':'application/text'}
         })
     }
@@ -46,4 +46,8 @@ export async function POST(request){
 export async function DELETE(request){
     const session = await getIronSession(await cookies(),sessionOptions)
     session.destroy()
+    return new Response("logged out",{
+        status:200,
+        headers: {'Content-Type':'application/text'}
+    })
 }
