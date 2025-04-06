@@ -2,6 +2,7 @@
 import { DayToString, MonthToString, WeekDayToString } from "../util/dateHelper";
 import ClassCard from "./ClassCard";
 import { useEffect, useState } from "react";
+import Rating from "./Rating";
 
 export default function() {
 
@@ -16,14 +17,13 @@ export default function() {
                 const body = await res.json()
 
                 for(let i = 0; i < body.length; i++) {
-                    console.log(body[i]["creatorID"])
-
                     const res2 = await fetch('/api/user?id=' + body[i]["creatorID"], {method: "GET"})
-
                     const user = await res2.json()
-                    console.log(user)
 
+
+                    console.log(user)
                     body[i]["creatorName"] = user.name
+                    body[i]["creatorRating"] = user.Rating
                 }
 
                 setEvents(body)
@@ -68,6 +68,7 @@ export default function() {
                         <p>
                             Instructor: {detailEvent.creatorName}
                         </p>
+                        <Rating rating={detailEvent.creatorRating} />
                         <p>
                             Cost: ${detailEvent.cost}
                         </p>
