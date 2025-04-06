@@ -1,6 +1,6 @@
 "use client"
 import MyProfile from "./MyProfile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Classes from "./Classes";
 import PublicEvents from "./PublicEvents";
 import { useRouter } from "next/navigation";
@@ -10,7 +10,29 @@ import { toast } from "sonner";
 export default function() {
     let router = useRouter()
     let [page, setPage] = useState("dashboard")
+    let [name, setName] = useState("Loading...")
+    let [credits, setCredits] = useState("Loading...")
     let debounce = false
+
+    useEffect(() => {
+        (async () => {
+
+            try {
+                const res = await fetch("/api/user", {method: "GET"})
+
+                const body = await res.json()
+
+                console.log(body)
+                setName(body.name)
+                setCredits((Math.floor(body.credits * 100) / 100).toFixed(2))
+
+            } catch (e) {
+                console.log(e)
+                setName("John Doe")
+                setCredits("0.00")
+            }
+        })()
+    },[])
 
     async function signOut() {
         if (debounce) {return}
@@ -67,10 +89,10 @@ export default function() {
             
             <div className="absolute bottom-0 w-full p-2">
                 <p className="inline">
-                    John Doe
+                    {name}
                 </p>
                 <p className="ml-4 inline text-gray-400">
-                    (Loading...)
+                    (${credits})
                 </p>
                 <button className="bg-gray-200 text-black w-full rounded-sm mt-2 active:bg-gray-600" onClick={() => setPage("myprofile")} >
                     Profile
