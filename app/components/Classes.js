@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Rating from "./Rating";
 import { toast } from "sonner";
 
-export default function() {
+export default function({onRegister}) {
 
     let [events, setEvents] = useState(null);
     let [detailEventIdx, setDetailEvent] = useState(null);
@@ -18,13 +18,7 @@ export default function() {
 
                 const body = await res.json()
 
-                for(let i = 0; i < body.length; i++) {
-                    const res2 = await fetch('/api/user?id=' + body[i]["creatorID"], {method: "GET"})
-                    const user = await res2.json()
-
-                    body[i]["creatorName"] = user.name
-                    body[i]["creatorRating"] = user.Rating
-                }
+                console.log(body)
 
                 setEvents(body)
 
@@ -39,7 +33,7 @@ export default function() {
         return <div>Loading...</div>
     }
 
-    async function register(classID) {
+    async function register(classID, eventidx) {
         if (debounce) {return}
         debounce = true
 
@@ -48,6 +42,13 @@ export default function() {
 
             if (res.status == 200) {
                 toast("Registration Complete")
+
+                let new_events = [...events]
+                new_events[eventidx]['registered'] = true
+                setEvents(new_events)
+
+                onRegister()
+
             } else if (res.status == 402) {
                 toast("Insufficient Funds")
             } else {
@@ -58,7 +59,6 @@ export default function() {
             toast("Something Went Wrong", {description: "Please Try Again."})
         }
         
-        console.log("Registering for:" + classID)
         debounce = false
     }
 
@@ -70,7 +70,7 @@ export default function() {
             let month = MonthToString(startDate.getMonth())
             let start = startDate.toLocaleTimeString(undefined, {timeStyle: "short"})
             let end = new Date(event.endTime).toLocaleTimeString(undefined, {timeStyle: "short"})
-            return <ClassCard onRegister={() => {register(event["classID"])}} key={idx} creator={event["creatorName"]} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
+            return <ClassCard onRegister={() => {register(event["classID"], idx)}} key={idx} registered={event.registered} creator={event["creatorName"]} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
         })
     }
 

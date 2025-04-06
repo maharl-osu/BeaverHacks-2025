@@ -1,10 +1,13 @@
 import DatePicker from "react-datepicker";
 import Rating from "./Rating";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import RegisteredClassCard from "./RegisteredClassCard";
+import { DayToString, MonthToString, WeekDayToString } from "../util/dateHelper";
 
-export default function() {
+export default function({onRemove}) {
 
+    let [registered, setRegistered] = useState(null)
     let [createModalOpen, setCreateModalOpen] = useState(false)
     let [date, setDate] = useState(new Date())
 
@@ -15,6 +18,24 @@ export default function() {
     let endRef = useRef()
     let costRef = useRef()
     let debounce = false
+
+
+    useEffect(() => {
+        (async () => {
+
+            try {
+                const res = await fetch("/api/register", {method: "GET"})
+
+                const body = await res.json()
+
+                setRegistered(body)
+
+            } catch (e) {
+                console.log(e)
+            }
+
+        })()
+    }, [])
 
     async function createClass() {
         if (debounce) {return}
@@ -71,8 +92,18 @@ export default function() {
         }
         
         debounce = false
-        
+    }
 
+    function renderRegisteredClasses() {
+        return registered.map((event, idx) => {
+            let startDate = new Date(event.startTime)
+            let weekday = WeekDayToString(startDate.getDay())
+            let day = DayToString(startDate.getDate())
+            let month = MonthToString(startDate.getMonth())
+            let start = startDate.toLocaleTimeString(undefined, {timeStyle: "short"})
+            let end = new Date(event.endTime).toLocaleTimeString(undefined, {timeStyle: "short"})
+            return <RegisteredClassCard key={idx} onRemove={() => {unregister(event.classID, idx)}} creator={event["creatorName"]} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
+        })
     }
 
     function renderCreateModal() {
@@ -104,13 +135,45 @@ export default function() {
         )
     }
 
+    async function unregister(classID, idx) {
+        if (debounce) {return}
+        debounce = true
+        
+        try {
+            const res = await fetch("/api/register", {method: "DELETE", body: JSON.stringify({classID: classID})})
+
+            if (res.status == 200) {
+                toast("Unregistered")
+
+                let new_registered = [...registered]
+                new_registered.splice(idx, 1)
+
+                setRegistered(new_registered)
+                onRemove()
+
+            } else {
+                toast("Something Went Wrong", {description: "Please Try Again."})
+            }
+
+        } catch (e) {
+            console.log(e)
+            toast("Something Went Wrong", {description: "Please Try Again."})
+        }
+
+        debounce = false
+    }
+
     return (
         <div className={"p-20"}>
             <h1 className="text-5xl mb-10">My Profile</h1>
 
             <button onClick={() => setCreateModalOpen(true)} className="text-xl bg-gray-800 rounded-sm mb-4 p-2 hover:bg-gray-900 active:bg-gray-950">Create Class</button>
 
-            <h1 className="text-2xl mb-10">Registered Classes</h1>
+            <h1 className="text-2xl">Registered Classes</h1>
+            <div className="flex flex-wrap mb-10">
+                {registered && renderRegisteredClasses()}
+            </div>
+            
 
             <h1 className="text-2xl mb-10">Registered Events</h1>
 
