@@ -25,7 +25,6 @@ export async function GET(request){
     //only let someone registered see the zoom link if we are close to a class starting
     if(_class.creatorID != session.id && _class.startTime.getTime() - new Date().getTime() < 30 * 60000){
         //check if registered
-       
         if(registeredClasses.indexOf(_class.classID) > -1){
             //user is registered
             access = true
@@ -66,6 +65,7 @@ export async function POST(request){
         })
     }
     body.creatorID = session.id
+    cost = parseInt(cost)
     //var dummyUser = new User(2,body.name)
     //dummyUser.addCredits(200)
     var db = await Database.getDatabase()
@@ -74,4 +74,47 @@ export async function POST(request){
         status:200,
         headers:{'Content-Type':'application/text'}
     })
+}
+
+
+/*
+body{
+    classID
+}
+*/
+export async function DELETE(request){
+    const body = await request.json()
+    const session = await getIronSession(await cookies(),sessionOptions)
+    if(!session.isLoggedIn){
+        return new Response("not logged in",{
+            status:400,
+            headers:{'Content-Type':'application/text'}
+        })
+    }
+    //check if this user created this class
+    var db = await Database.getDatabase()
+    var _class = await db.getClass(body.classID)
+
+    if(session.id ==_class.creatorID){
+        //check which users are registered for this class
+        var users = await db.getAllUsers()
+        users = users.filter((user) => user.registeredClasses.indexOf(_class.classID) > -1)
+        //refund them and remove the class from their registered list
+        for(var user of users){
+            var index = user.registeredClasses.indexOf(_class.classID)
+            user.registeredClasses.splice(index,1)
+            user.addCredits(_class.cost)
+            await db.saveUser(user)
+        }
+        await db.deleteClass(body.classID)
+        return new Response("class deleted",{
+            status:200,
+            headers:{'Content-Type':'application/text'}
+        })
+    }else{
+        return new Response("not authorized",{
+            status:403,
+            headers:{'Content-Type':'application/text'}
+        })
+    }
 }

@@ -28,6 +28,9 @@ export class User{
         var toReturn = new User(dbO.userID,dbO.username,dbO.name)
         toReturn.addCredits(dbO.credits)
         toReturn.registeredClasses = dbO.registeredClasses
+        if(toReturn.registeredClasses == undefined){
+            toReturn.registeredClasses = []
+        }
         return toReturn
     }
 }

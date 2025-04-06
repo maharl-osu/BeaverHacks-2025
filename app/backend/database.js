@@ -160,6 +160,14 @@ data:
         return toReturn
     }
 
+    async deleteClass(classID){
+        var database = await Database.getDatabase()
+        if(Database.database == undefined){
+            throw "Database has not been loaded yet"
+        }
+        const res = await database.db.collection('classes').doc(classID.toString()).delete();
+    }
+
     async addEvent(){
         var database = await Database.getDatabase()
         if(Database.database == undefined){
