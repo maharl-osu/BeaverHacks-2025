@@ -4,7 +4,7 @@ import Rating from "./Rating";
 export default function({title, creator, creatorRating, date, time, description, numRegistered, cost, zoom, onRemove, onViewInstructor}) {
     return (
       <div className=" bg-gray-800 rounded-md w-80 h-fit shadow-md shadow-black pb-2 m-2">
-        <h1 className="bg-gray-700 bg-cover h-fit p-2 rounded-t-md text-center text-2xl shadow-black shadow-xs">
+        <h1 className="bg-gray-700 bg-cover h-24 p-2 rounded-t-md text-center text-2xl shadow-black shadow-xs">
             {title}
         </h1>
         <p className="pl-2 pt-2">
