@@ -6,6 +6,7 @@ import RegisteredClassCard from "./RegisteredClassCard";
 import { DayToString, MonthToString, WeekDayToString } from "../util/dateHelper";
 import TeachingClassCard from "./TeachingClassCard";
 import Profile from "./Profile";
+import Review from "./Review";
 
 export default function({onRemove}) {
 
@@ -14,6 +15,7 @@ export default function({onRemove}) {
     let [createModalOpen, setCreateModalOpen] = useState(false)
     let [date, setDate] = useState(new Date())
     let [viewedProfile, setViewedProfile] = useState(null)
+    let [user, setUser] = useState(null)
 
     let titleRef = useRef()
     let descriptionRef = useRef()
@@ -28,17 +30,24 @@ export default function({onRemove}) {
         (async () => {
 
             try {
-                const res = await fetch("/api/register", {method: "GET"})
+                const res = await fetch("/api/user", {method: "GET"})
 
                 const body = await res.json()
 
-                setRegistered(body)
+                setUser(body)
 
-                const res2 = await fetch("/api/teacher", {method: "GET"})
+                const res2 = await fetch("/api/register", {method: "GET"})
 
                 const body2 = await res2.json()
 
-                setTeaching(body2)
+
+                setRegistered(body2)
+
+                const res3 = await fetch("/api/teacher", {method: "GET"})
+
+                const body3 = await res3.json()
+
+                setTeaching(body3)
 
             } catch (e) {
                 console.log(e)
@@ -214,6 +223,16 @@ export default function({onRemove}) {
         debounce = false
     }
 
+    function renderReviews() {
+        return (
+            <div className="grid grid-cols-1 gap-5 max-h-[calc(100%-400px)] overflow-y-scroll">
+                {user.reviews.map((val, idx) => {
+                    return <Review key={idx} data={val} />
+                })}
+            </div>
+        )
+    }
+
     return  (teaching == null) ? 
         (<div className="flex items-center justify-center h-full">
             <img src="/loading.png" className="animate-spin w-80"></img>
@@ -238,12 +257,14 @@ export default function({onRemove}) {
 
             <h1 className="text-2xl mb-10">Registered Events</h1>
 
-            <h1 className="text-2xl">Rating</h1>
-            <Rating rating={3.2}/>
+            <h1 className="text-2xl">Overall Rating</h1>
+            {user && <Rating rating={user.Rating}/>}
             <h1 className="text-2xl mt-10">Reviews</h1>
 
             {createModalOpen && renderCreateModal()}
             <Profile viewedProfile={viewedProfile} setViewedProfile={setViewedProfile} />
+
+            {user && renderReviews()}
         </div>
     )
 }
