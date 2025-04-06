@@ -52,4 +52,8 @@ export async function POST(request){
 export async function DELETE(request){
     const session = await getIronSession(await cookies(),sessionOptions)
     session.destroy()
+    return new Response("logged out",{
+        status:200,
+        headers: {'Content-Type':'application/text'}
+    })
 }
