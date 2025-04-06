@@ -1,3 +1,5 @@
+# SkillLeaf
+
 ## Inspiration
 It took quite a lot of thinking to come up with a solution to help improve online learning. At first we weren't sure what we were going to be completing at all, but then one of our members had an idea. What if there was an app similar to Fiverr, but instead of selling services it was a place for learning where anyone could teach a class they wanted to teach. That idea took off and our team began working on it.
 
