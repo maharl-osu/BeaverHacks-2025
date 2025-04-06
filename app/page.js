@@ -15,7 +15,7 @@ export default function Home() {
         <div className="bg-gray-95 shadow-lg shadow-black w-full h-full relative bg-gray-800">
 
             <h1 className="text-4xl text-center mt-4 font-serif">
-                SkillNest
+                SkillLeaf
             </h1>
             <h4 className="text-center mb-5 text-gray-400">
                 Connecting Students & Professors
