@@ -7,7 +7,7 @@ export default function({title, creator, date, time, description, cost, onViewDe
             {title}
         </h1>
         <p className="pl-2 pt-2">
-            {creator}
+            Instructor: {creator}
         </p>
         <p className="pl-2 text-gray-300">
             {date}
@@ -16,7 +16,7 @@ export default function({title, creator, date, time, description, cost, onViewDe
             {time}
         </p>
         <p className="p-2 h-20 overflow-clip">
-            {description}
+            Description: {description}
         </p>
         <button className="m-2 w-[calc(100%-16px)] bg-gray-950 px-4 py-2 rounded-sm hover:bg-gray-900 active:bg-gray-950 duration-100">
             Register <span className="text-gray-400">(${cost})</span>

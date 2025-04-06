@@ -65,12 +65,12 @@ export default function() {
                 <button className="w-full bg-white text-black rounded-sm mb-2 active:bg-gray-600">Apply Filter</button>
             </div>
             
-            <div className="absolute bottom-20 w-full p-2">
+            <div className="absolute bottom-0 w-full p-2">
                 <p className="inline">
                     John Doe
                 </p>
                 <p className="ml-4 inline text-gray-400">
-                    ($19.99)
+                    (Loading...)
                 </p>
                 <button className="bg-gray-200 text-black w-full rounded-sm mt-2 active:bg-gray-600" onClick={() => setPage("myprofile")} >
                     Profile
@@ -78,6 +78,10 @@ export default function() {
                 <button className="bg-gray-200 text-black w-full rounded-sm mt-2 active:bg-gray-600" onClick={() => signOut()}>
                     Sign Out
                 </button>
+                <p className="text-center mt-5 text-gray-500">
+                    Powered By
+                </p>
+                <img className="w-[50%] m-auto" src="/Firebase-Logo.png"></img>
             </div>
         </div>
         <div className="w-full h-full">
