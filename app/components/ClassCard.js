@@ -1,6 +1,6 @@
 
 
-export default function({title, creator, date, time, description, cost, registered, numRegistered, onViewDetails, onRegister}) {
+export default function({title, creator, date, time, description, cost, registered, numRegistered, onViewDetails, onRegister, onViewInstructor}) {
     
     let registerColor = registered ? "bg-green-800 hover:bg-green-900 active:bg-green-950" : "bg-gray-950 hover:bg-gray-900 active:bg-gray-950"
 
@@ -10,7 +10,7 @@ export default function({title, creator, date, time, description, cost, register
             {title}
         </h1>
         <p className="pl-2 pt-2">
-            Instructor: {creator}
+            Instructor: <span onClick={onViewInstructor} className="underline text-amber-300 cursor-pointer">{creator}</span>
         </p>
         <p className="pl-2 text-gray-300">
             {date}
