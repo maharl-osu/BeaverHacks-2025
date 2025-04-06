@@ -18,6 +18,7 @@ export async function GET(request){
 request body{
 
 data:
+    "name":
     "creatorID" : 
     "description" : 
     "date" : 

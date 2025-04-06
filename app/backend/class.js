@@ -26,6 +26,6 @@ export class Class{
     }
 
     static fromDB(dbO){
-        return new Class(dbO.creatorID,dbO.classID,dbO.description,dbO.date,dbO.startTime,dbO.endTime,dbO.zoomLink,dbO.cost)
+        return new Class(dbO.name,dbO.creatorID,dbO.classID,dbO.description,dbO.date,dbO.startTime,dbO.endTime,dbO.zoomLink,dbO.cost)
     }
 }
