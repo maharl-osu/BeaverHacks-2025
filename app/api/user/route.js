@@ -29,20 +29,20 @@ export async function GET(request){
         }
     }
 
-
+    //remove sensitive information if you are not this user
     var user = await db.getUser(params.get("id"))
+    if(!session.isLoggedIn || session.id != user.userID){
+        user.credits = undefined
+        user.registeredClasses = undefined
+    }
     return new Response(JSON.stringify(user),{
         status:200,
         headers: {'Content-Type':'application/json'}
     })
 }
 
-//create user
-//body{
-//  name: name of the user
-//  username: username of the user
-//}
-//TODO: remove, made obselete by login
+//removed, made obselete by login
+/*
 export async function POST(request){
     const body = await request.json()
 
@@ -54,4 +54,4 @@ export async function POST(request){
         status:201,
         headers:{'Content-Type':'application/text'}
     })
-}
+}*/
