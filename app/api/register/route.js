@@ -61,7 +61,7 @@ export async function POST(request){
         await db.saveUser(user)
         return new Response("registered",{"status":200})
     }else{
-        return new Response("not enough credits",{"status":400})
+        return new Response("not enough credits",{"status":402})
     }
 }
 
