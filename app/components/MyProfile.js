@@ -110,7 +110,7 @@ export default function({onRemove}) {
             let month = MonthToString(startDate.getMonth())
             let start = startDate.toLocaleTimeString(undefined, {timeStyle: "short"})
             let end = new Date(event.endTime).toLocaleTimeString(undefined, {timeStyle: "short"})
-            return <RegisteredClassCard key={idx} onRemove={() => {unregister(event.classID, idx)}} numRegistered={event.registerCount} zoom={event.zoomLink} creator={event["creatorName"]} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
+            return <RegisteredClassCard key={idx} onRemove={() => {unregister(event.classID, idx)}} creatorRating={event.creatorRating} numRegistered={event.registerCount} zoom={event.zoomLink} creator={event["creatorName"]} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
         })
     }
 

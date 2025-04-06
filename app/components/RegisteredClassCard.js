@@ -1,6 +1,7 @@
+import Rating from "./Rating";
 
 
-export default function({title, creator, date, time, description, numRegistered, cost, zoom, onRemove}) {
+export default function({title, creator, creatorRating, date, time, description, numRegistered, cost, zoom, onRemove}) {
     return (
       <div className=" bg-gray-800 rounded-md w-80 h-fit shadow-md shadow-black pb-2 m-2">
         <h1 className="bg-gray-700 bg-cover h-fit p-2 rounded-t-md text-center text-2xl shadow-black shadow-xs">
@@ -9,6 +10,9 @@ export default function({title, creator, date, time, description, numRegistered,
         <p className="pl-2 pt-2">
             Instructor: {creator}
         </p>
+        <div className="pl-1">
+            <Rating rating={creatorRating} />
+        </div>
         <p className="pl-2 text-gray-300">
             {date}
         </p>
