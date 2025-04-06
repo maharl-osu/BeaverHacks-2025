@@ -3,11 +3,13 @@ import { DayToString, MonthToString, WeekDayToString } from "../util/dateHelper"
 import ClassCard from "./ClassCard";
 import { useEffect, useState } from "react";
 import Rating from "./Rating";
+import { toast } from "sonner";
 
 export default function() {
 
     let [events, setEvents] = useState(null);
     let [detailEventIdx, setDetailEvent] = useState(null);
+    let debounce = false
 
     useEffect(() => {
         (async () => {
@@ -20,8 +22,6 @@ export default function() {
                     const res2 = await fetch('/api/user?id=' + body[i]["creatorID"], {method: "GET"})
                     const user = await res2.json()
 
-
-                    console.log(user)
                     body[i]["creatorName"] = user.name
                     body[i]["creatorRating"] = user.Rating
                 }
@@ -39,6 +39,29 @@ export default function() {
         return <div>Loading...</div>
     }
 
+    async function register(classID) {
+        if (debounce) {return}
+        debounce = true
+
+        try {
+            const res = await fetch("/api/register", {method: "POST", body: JSON.stringify({classID: classID})})
+
+            if (res.status == 200) {
+                toast("Registration Complete")
+            } else if (res.status == 402) {
+                toast("Insufficient Funds")
+            } else {
+                toast("Something Went Wrong", {description: "Please Try Again."})
+            }
+        } catch (e) {
+            console.log(e)
+            toast("Something Went Wrong", {description: "Please Try Again."})
+        }
+        
+        console.log("Registering for:" + classID)
+        debounce = false
+    }
+
     function displayClasses() {
         return events.map((event, idx) => {
             let startDate = new Date(event.startTime)
@@ -47,7 +70,7 @@ export default function() {
             let month = MonthToString(startDate.getMonth())
             let start = startDate.toLocaleTimeString(undefined, {timeStyle: "short"})
             let end = new Date(event.endTime).toLocaleTimeString(undefined, {timeStyle: "short"})
-            return <ClassCard key={idx} creator={event["creatorName"]} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
+            return <ClassCard onRegister={() => {register(event["classID"])}} key={idx} creator={event["creatorName"]} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
         })
     }
 

@@ -9,6 +9,18 @@ button {
     display: block;
 }
 
+input {
+    background-color: white;
+    border-radius: 2px;
+    color: black;
+}
+
+textarea {
+    background-color: white;
+    border-radius: 2px;
+    color: black;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
