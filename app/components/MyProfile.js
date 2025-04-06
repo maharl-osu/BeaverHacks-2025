@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import RegisteredClassCard from "./RegisteredClassCard";
 import { DayToString, MonthToString, WeekDayToString } from "../util/dateHelper";
 import TeachingClassCard from "./TeachingClassCard";
+import Profile from "./Profile";
 
 export default function({onRemove}) {
 
@@ -12,6 +13,7 @@ export default function({onRemove}) {
     let [teaching, setTeaching] = useState(null)
     let [createModalOpen, setCreateModalOpen] = useState(false)
     let [date, setDate] = useState(new Date())
+    let [viewedProfile, setViewedProfile] = useState(null)
 
     let titleRef = useRef()
     let descriptionRef = useRef()
@@ -109,7 +111,7 @@ export default function({onRemove}) {
             let month = MonthToString(startDate.getMonth())
             let start = startDate.toLocaleTimeString(undefined, {timeStyle: "short"})
             let end = new Date(event.endTime).toLocaleTimeString(undefined, {timeStyle: "short"})
-            return <RegisteredClassCard key={idx} onRemove={() => {unregister(event.classID, idx)}} creatorRating={event.creatorRating} numRegistered={event.registerCount} zoom={event.zoomLink} creator={event["creatorName"]} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
+            return <RegisteredClassCard key={idx} onViewInstructor={() => {setViewedProfile(event.creatorID)}} onRemove={() => {unregister(event.classID, idx)}} creatorRating={event.creatorRating} numRegistered={event.registerCount} zoom={event.zoomLink} creator={event["creatorName"]} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
         })
     }
 
@@ -241,6 +243,7 @@ export default function({onRemove}) {
             <h1 className="text-2xl mt-10">Reviews</h1>
 
             {createModalOpen && renderCreateModal()}
+            <Profile viewedProfile={viewedProfile} setViewedProfile={setViewedProfile} />
         </div>
     )
 }
