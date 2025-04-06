@@ -26,7 +26,9 @@ export default function({title, creator, creatorRating, date, time, description,
             Description: {description}
         </p>
         {zoom &&
-            <a className="p-2 underline text-blue-400" href={zoom}>Zoom Link</a>
+            <div className="p-2 mb-4">
+                <a className="underline text-blue-400" href={zoom}>Zoom Link</a>
+            </div>
         }
 
         {!zoom &&
