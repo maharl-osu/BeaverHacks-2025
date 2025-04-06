@@ -99,6 +99,7 @@ export default function() {
             </h4>
 
             <div className="p-2">
+                <button className="bg-gray-200 text-black w-full rounded-sm mb-2 active:bg-gray-600" onClick={() => setPage("myprofile")} >Profile</button>
                 <button className="w-full bg-white text-black rounded-sm mb-2 active:bg-gray-600" onClick={() => setPage("events")} >Public Events</button>
                 <button className="w-full bg-white text-black rounded-sm mb-2 active:bg-gray-600" onClick={() => setPage("classes")} >Classes</button>
             </div>
@@ -131,9 +132,6 @@ export default function() {
                 <p className="ml-4 inline text-gray-400">
                     (${credits})
                 </p>
-                <button className="bg-gray-200 text-black w-full rounded-sm mt-2 active:bg-gray-600" onClick={() => setPage("myprofile")} >
-                    Profile
-                </button>
                 <button className="bg-gray-200 text-black w-full rounded-sm mt-2 active:bg-gray-600" onClick={() => signOut()}>
                     Sign Out
                 </button>
