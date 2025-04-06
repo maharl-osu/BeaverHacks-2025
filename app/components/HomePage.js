@@ -14,24 +14,25 @@ export default function() {
     let [credits, setCredits] = useState("Loading...")
     let debounce = false
 
+    async function loadAccountDetails() {
+        try {
+            const res = await fetch("/api/user", {method: "GET"})
+
+            const body = await res.json()
+
+            console.log(body)
+            setName(body.name)
+            setCredits((Math.floor(body.credits * 100) / 100).toFixed(2))
+
+        } catch (e) {
+            console.log(e)
+            setName("John Doe")
+            setCredits("0.00")
+        }
+    }
+
     useEffect(() => {
-        (async () => {
-
-            try {
-                const res = await fetch("/api/user", {method: "GET"})
-
-                const body = await res.json()
-
-                console.log(body)
-                setName(body.name)
-                setCredits((Math.floor(body.credits * 100) / 100).toFixed(2))
-
-            } catch (e) {
-                console.log(e)
-                setName("John Doe")
-                setCredits("0.00")
-            }
-        })()
+        loadAccountDetails()
     },[])
 
     async function signOut() {
@@ -106,8 +107,8 @@ export default function() {
             </div>
         </div>
         <div className="w-full h-full">
-            {page == "myprofile" && <MyProfile />}
-            {page == "classes" && <Classes />}
+            {page == "myprofile" && <MyProfile onRemove={loadAccountDetails} />}
+            {page == "classes" && <Classes onRegister={loadAccountDetails} />}
             {page == "events" && <PublicEvents />}
         </div>
         </div>
