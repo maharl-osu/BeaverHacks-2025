@@ -10,6 +10,7 @@ export async function GET(request){
     const session = await getIronSession(await cookies(),sessionOptions)
     //var dummyClass = new Class(1,1,"This is a test class for testing","4/5",60*12,60*13,"https://ZOOMLINKHERE",100)
     var classes = await db.getClasses() 
+    var toReturn
     for(var _class of classes){
         //check if you have access to the zoomLink
         var access = false

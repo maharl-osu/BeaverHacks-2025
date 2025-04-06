@@ -27,6 +27,7 @@ export async function GET(request){
     if(!(_class.creatorID == session.id || access)){
         _class.zoomLink = undefined
     }
+    _class.cost = parseInt(_class.cost)
     return new Response(JSON.stringify(_class),{
         status:200,
         headers: {'Content-Type':'application/json'}
