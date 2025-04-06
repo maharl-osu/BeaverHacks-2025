@@ -27,7 +27,7 @@ export async function GET(request){
         _class.creatorName = creator.name 
         _class.creatorRating = creator.Rating
         _class.registerCount = registrationCounts[_class.classID]
-    if(_class.registerCount == undefined){_class.registerCount = 0}
+        if(_class.registerCount == undefined){_class.registerCount = 0}
         //only let someone registered see the zoom link if we are close to a class starting
         if(_class.creatorID != session.id){
             //check if registered
@@ -35,7 +35,13 @@ export async function GET(request){
                 //user is registered
                 access = true
             }
+            console.log(_class.name)
+
+            if(_class.startTime.getTime() - new Date().getTime() > 30 * 60000){
+                _class.zoomLink = undefined
+            }
         }
+       
         //remove the zoom link if you arent registered or hosting an event
         if(_class.creatorID == session.id || access){
             toReturn.push(_class)
