@@ -14,7 +14,6 @@ export async function GET(request){
     var params = request.nextUrl.searchParams
     const session = await getIronSession(await cookies(),sessionOptions)
     if(params.get("id") == undefined){
-        console.log(session)
         if(session.isLoggedIn){
             var user = await db.getUser(session.id)
             user.reviews = user.reviews.reverse() 

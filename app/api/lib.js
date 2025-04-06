@@ -39,13 +39,13 @@ export async function registrationTotals(users){
 }
 
 //remove all the classes that have ended 
-export async function removeAndPayout(classes,totals){
+export async function removeAndPayout(classes){
   var db = await Database.getDatabase()
   var users = await db.getAllUsers()
   var output = []
   for(var _class of classes){
     if(_class.endTime.getTime() <= new Date().getTime()){
-      var numReg = totals[_class.classID]
+      var numReg = _class.registerCount
       if(numReg == undefined){
         continue
       }
@@ -58,7 +58,6 @@ export async function removeAndPayout(classes,totals){
       }
       
       await db.deleteClass(_class.classID)
-      console.log("deleting class " + _class.classID.toString() + " with name " + _class.name)
     }else{
       output.push(_class)
     }

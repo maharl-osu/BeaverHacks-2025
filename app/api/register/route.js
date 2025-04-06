@@ -15,7 +15,7 @@ export async function GET(request){
     var classes = await db.getClasses() 
     var user = await db.getUser(session.id)
     var registeredClasses = user.registeredClasses
-    var registrationCounts = await registrationTotals(await db.getAllUsers())
+    //var registrationCounts = await registrationTotals(await db.getAllUsers())
     var toReturn = []
     for(var _class of classes){
         //check if you have access to the zoomLink
@@ -26,8 +26,6 @@ export async function GET(request){
         var creator = await db.getUser(_class.creatorID)
         _class.creatorName = creator.name 
         _class.creatorRating = creator.Rating
-        _class.registerCount = registrationCounts[_class.classID]
-        if(_class.registerCount == undefined){_class.registerCount = 0}
         //only let someone registered see the zoom link if we are close to a class starting
         if(_class.creatorID != session.id){
             //check if registered
@@ -35,7 +33,6 @@ export async function GET(request){
                 //user is registered
                 access = true
             }
-            console.log(_class.name)
 
             if(_class.startTime.getTime() - new Date().getTime() > 30 * 60000){
                 _class.zoomLink = undefined
@@ -84,7 +81,6 @@ export async function POST(request){
     if(user.credits >= _class.cost){
         user.addCredits(-_class.cost)
         user.registeredClasses.push(_class.classID)
-        console.log(user)
         await db.saveUser(user)
         _class.registerCount += 1
         await db.saveClass(_class)

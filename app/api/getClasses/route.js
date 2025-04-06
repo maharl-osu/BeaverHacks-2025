@@ -13,9 +13,8 @@ export async function GET(request){
     var user = await db.getUser(session.id)
     var registeredClasses = user.registeredClasses
     //var registrationCounts = await registrationTotals(await db.getAllUsers())
-    //await removeAndPayout(classes,registrationCounts)
+    await removeAndPayout(classes)
     var toReturn = []
-    //console.log(session)
     for(var _class of classes){
         if(_class.endTime.getTime() < new Date().getTime()){
             continue

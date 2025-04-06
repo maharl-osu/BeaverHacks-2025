@@ -36,7 +36,6 @@ export async function POST(request){
         session.id = dbData.id
         session.name = user.name
         await session.save()
-        console.log(session)
         return new Response("logged in",{
             status:200,
             headers: {'Content-Type':'application/text'}

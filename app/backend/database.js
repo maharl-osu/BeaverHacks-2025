@@ -141,6 +141,7 @@ data:
             throw "class does not exist"
         }
         var data = match.data()
+        data["registerCount"] = data["registered"]
         return Class.fromDB(data)
     }
 
@@ -152,8 +153,10 @@ data:
         const doc = await database.db.collection("classes").get()
         var toReturn = []
         doc.forEach(_class => {
-            if(_class.data().next == undefined){
-                toReturn.push(Class.fromDB(_class.data()))
+            var data = _class.data()
+            if(data.next == undefined){
+                data["registerCount"] = data["registered"]
+                toReturn.push(Class.fromDB(data))
             }
         })
         return toReturn
@@ -192,7 +195,6 @@ data:
             throw "Database has not been loaded yet"
         }
         const ref = database.db.collection("hashes").doc(username)
-        console.log({"hash":hash,"id":id})
         await ref.set({"hash":hash,"id":id})
     }
 
@@ -220,7 +222,6 @@ data:
         target.reviews.push(data)
         target.Rating = 0
         for(var review of target.reviews){
-            console.log(review)
             target.Rating += review.starRating / target.reviews.length
         }
         await this.saveUser(target)
@@ -241,6 +242,6 @@ data:
             throw "Database has not been loaded yet"
         }
         const docRef = database.db.collection("classes").doc(_class.classID.toString())
-        await docRef.set(_class)
+        await docRef.set(JSON.parse(JSON.stringify(_class)))
     }
 }
