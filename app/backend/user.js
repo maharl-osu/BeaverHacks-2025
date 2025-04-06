@@ -29,6 +29,7 @@ export class User{
         toReturn.addCredits(dbO.credits)
         toReturn.registeredClasses = dbO.registeredClasses
         toReturn.reviews = dbO.reviews
+        toReturn.Rating = dbO.Rating
         if(toReturn.registeredClasses == undefined){
             toReturn.registeredClasses = []
         }
