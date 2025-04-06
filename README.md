@@ -7,13 +7,13 @@ It took quite a lot of thinking to come up with a solution to help improve onlin
 SkillLeaf connects students to professors. Anyone can teach classes on SkillLeaf and charge their own price for their class. SkillLeaf is unique because it creates an actual classroom-like environment which can't be found anywhere else. It helps provoke learning by allowing students to ask questions in real time like they would with a professor, unlike if you were simply watching a lecture.
 
 ## How we built it
-We started with `npx create-next-app` to get a template Next.js application with Tailwindcss. From there we built the application from the ground up using Google's Firebase.
+We started with `npx create-next-app` to get a template Next.js application with Tailwindcss. From there we built the application from the ground up using Google's Firebase. We also integrated with Iron-Session for our sessions and Bcrypt for password hashing.
 
 ## Challenges we ran into
 No one on our team had used Firebase before, so it was a little bit of a learning curve coming from a traditional structured relational schema like SQL.
 
 ## Accomplishments that we're proud of
-SkillLeaf is almost ready for deployment, and everything is server-side validated. The last thing we'd like to do is set up events which are gone over in more detail down below.
+SkillLeaf is almost ready for deployment, and everything is server-side validated. The last thing we'd like to do is set up events which are gone over in more detail down below. We're only a team of two, but overall we're really happy with how it came out.
 
 ## What we learned
 Our primary learning came from the use of Firebase's API. It was a slow start, but once we got going Firebase API became very quick and easy to use.
