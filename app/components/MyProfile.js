@@ -8,6 +8,7 @@ import { DayToString, MonthToString, WeekDayToString } from "../util/dateHelper"
 export default function({onRemove}) {
 
     let [registered, setRegistered] = useState(null)
+    let [teaching, setTeaching] = useState(null)
     let [createModalOpen, setCreateModalOpen] = useState(false)
     let [date, setDate] = useState(new Date())
 
@@ -29,6 +30,12 @@ export default function({onRemove}) {
                 const body = await res.json()
 
                 setRegistered(body)
+
+                const res2 = await fetch("/api/teacher", {method: "GET"})
+
+                const body2 = await res2.json()
+
+                setTeaching(body2)
 
             } catch (e) {
                 console.log(e)
@@ -106,6 +113,18 @@ export default function({onRemove}) {
         })
     }
 
+    function renderTeachingClasses() {
+        return teaching.map((event, idx) => {
+            let startDate = new Date(event.startTime)
+            let weekday = WeekDayToString(startDate.getDay())
+            let day = DayToString(startDate.getDate())
+            let month = MonthToString(startDate.getMonth())
+            let start = startDate.toLocaleTimeString(undefined, {timeStyle: "short"})
+            let end = new Date(event.endTime).toLocaleTimeString(undefined, {timeStyle: "short"})
+            return <RegisteredClassCard key={idx} onRemove={() => {unregister(event.classID, idx)}} numRegistered={event.registerCount} zoom={event.zoomLink} creator={event["creatorName"]} time={start + " - " + end} date={month + " " + day + " (" + weekday + ")"} title={event.name} description={event.description} cost={event.cost} onViewDetails={()=> {setDetailEvent(idx)}} />
+        })
+    }
+
     function renderCreateModal() {
         return (
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -163,11 +182,42 @@ export default function({onRemove}) {
         debounce = false
     }
 
+    async function stopTeaching(classID, idx) {
+        if (debounce) {return}
+        debounce = true
+        
+        try {
+            const res = await fetch("/api/class", {method: "DELETE", body: JSON.stringify({classID: classID})})
+
+            if (res.status == 200) {
+                toast("Dropped Class")
+
+                let new_teaching = [...teaching]
+                new_teaching.splice(idx, 1)
+
+                setTeaching(new_registered)
+            } else {
+                toast("Something Went Wrong", {description: "Please Try Again."})
+            }
+
+        } catch (e) {
+            console.log(e)
+            toast("Something Went Wrong", {description: "Please Try Again."})
+        }
+
+        debounce = false
+    }
+
     return (
         <div className={"p-20"}>
             <h1 className="text-5xl mb-10">My Profile</h1>
 
             <button onClick={() => setCreateModalOpen(true)} className="text-xl bg-gray-800 rounded-sm mb-4 p-2 hover:bg-gray-900 active:bg-gray-950">Create Class</button>
+
+            <h1 className="text-2xl">Classes I'm Teaching</h1>
+            <div className="flex flex-wrap mb-10">
+                {teaching && renderTeachingClasses()}
+            </div>
 
             <h1 className="text-2xl">Registered Classes</h1>
             <div className="flex flex-wrap mb-10">
