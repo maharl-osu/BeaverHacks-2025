@@ -5,7 +5,7 @@ export class User{
     username = ""
     name = ""
     credits = 0
-    Rating = 5
+    Rating = -1
     reviews = []
     registeredClasses = [] //array of class ids
 
