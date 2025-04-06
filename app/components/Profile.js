@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import Rating from "./Rating"
-
-
+import Review from "./Review"
 
 export default function({viewedProfile, setViewedProfile}) {
     
@@ -46,13 +45,18 @@ export default function({viewedProfile, setViewedProfile}) {
                     Write Review
                 </button>
                 <h4 className="text-2xl w-full text-center mt-2">Reviews</h4>
+                <div className="grid grid-cols-1 gap-5 overflow-y-scroll">
+                    {user.reviews.map((val, idx) => {
+                        return <Review key={idx} data={val} />
+                    })}
+                </div>
             </>
         )
     }
 
     return (
-        <div className="w-full h-full absolute bg-black/40 inset-0 flex items-center justify-center">
-            <div className="bg-gray-700 relative w-[80%] h-[80%] max-w-4xl rounded-sm">
+        <div className="w-full h-full fixed bg-black/40 inset-0 flex items-center justify-center">
+            <div className="bg-gray-700 relative w-[80%] h-[80%] max-w-4xl rounded-sm p-4">
                 <button onClick={() => setViewedProfile(null)} className="absolute -top-4 -right-4 w-fit h-fit bg-red-800 hover:bg-red-900 active:bg-red-950 p-2 rounded-sm">Close</button>
                 {user != null ? renderUser() : loading()}
             </div>
