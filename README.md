@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SkillLeaf
 
-## Getting Started
+## Inspiration
+It took quite a lot of thinking to come up with a solution to help improve online learning. At first we weren't sure what we were going to be completing at all, but then one of our members had an idea. What if there was an app similar to Fiverr, but instead of selling services it was a place for learning where anyone could teach a class they wanted to teach. That idea took off and our team began working on it.
 
-First, run the development server:
+## What it does
+SkillLeaf connects students to professors. Anyone can teach classes on SkillLeaf and charge their own price for their class. SkillLeaf is unique because it creates an actual classroom-like environment which can't be found anywhere else. It helps provoke learning by allowing students to ask questions in real time like they would with a professor, unlike if you were simply watching a lecture.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## How we built it
+We started with `npx create-next-app` to get a template Next.js application with Tailwindcss. From there we built the application from the ground up using Google's Firebase. We also integrated with Iron-Session for our sessions and Bcrypt for password hashing.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Challenges we ran into
+No one on our team had used Firebase before, so it was a little bit of a learning curve coming from a traditional structured relational schema like SQL.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Accomplishments that we're proud of
+SkillLeaf is almost ready for deployment, and everything is server-side validated. The last thing we'd like to do is set up events which are gone over in more detail down below. We're only a team of two, but overall we're really happy with how it came out.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## What we learned
+Our primary learning came from the use of Firebase's API. It was a slow start, but once we got going Firebase API became very quick and easy to use.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## What's next for SkillLeaf
+Our team wants to broaden the horizon of SkillLeaf, instead of offering purely online classes we want people to be able to post in-person classes which users will be able to sign up for. We also want to add the ability for people to host events which anyone would be able to join for free and help bring the community together. It is our belief that SkillLeaf has a lot of potential in the real world.
