@@ -24,4 +24,8 @@ export class Class{
         this.zoomLink = _zoomLink
         this.cost = _cost
     }
+
+    static fromDB(dbO){
+        return new Class(dbO.creatorID,dbO.classID,dbO.description,dbO.date,dbO.startTime,dbO.endTime,dbO.zoomLink,dbO.cost)
+    }
 }
