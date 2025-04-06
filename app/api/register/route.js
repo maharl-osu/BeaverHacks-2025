@@ -66,14 +66,15 @@ export async function POST(request){
         return new Response("not logged in",{"status":400})
     }
     //check if you are too close
-    if(_class.startTime.getTime() - new Date().getTime() < 30 * 60000){
-        return new Response("too close to sign up",{"status":403})
-    }
+    
     
     //check if you have enough credits
     var db = await Database.getDatabase()
     var user = await db.getUser(session.id)
     var _class = await db.getClass(body.classID)
+    if(_class.startTime.getTime() - new Date().getTime() < 30 * 60000){
+        return new Response("too close to sign up",{"status":403})
+    }
     //stop people from registering if they are inelligible
     if(session.id == _class.creatorID || user.registeredClasses.indexOf(_class.classID) > -1){
         return new Response("not logged in",{"status":409})
