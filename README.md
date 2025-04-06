@@ -20,3 +20,6 @@ Our primary learning came from the use of Firebase's API. It was a slow start, b
 
 ## What's next for SkillLeaf
 Our team wants to broaden the horizon of SkillLeaf, instead of offering purely online classes we want people to be able to post in-person classes which users will be able to sign up for. We also want to add the ability for people to host events which anyone would be able to join for free and help bring the community together. It is our belief that SkillLeaf has a lot of potential in the real world.
+
+## How to Build the Project
+In order to use the project you will need to provide a Firebase service user authentication file. Put it at the root of the project and name it _hackathon-455921-8d8b3ed87f1a.json_. The app will not function without Firebase access.
