@@ -24,6 +24,7 @@ export default function({onRegister}) {
 
             } catch (e) {
                 console.log(e)
+                toast("Failed To Load")
             }
         })()
 
