@@ -1,4 +1,3 @@
-
 export class Class{
     name = ""
     creatorID = "" //UserID

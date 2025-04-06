@@ -12,13 +12,21 @@ export async function GET(request){
     const session = await getIronSession(await cookies(),sessionOptions)
     //var dummyClass = new Class(1,1,"This is a test class for testing","4/5",60*12,60*13,"https://ZOOMLINKHERE",100)
     var _class = await db.getClass(params.get("id"))
+    var user = await db.getUser(session.id)
+    var registeredClasses = user.registeredClasses
     //check if you have access to the zoomLink
     var access = false
+    if(session.isLoggedIn){
+        _class.registered = registeredClasses.indexOf(_class.classID) > -1 
+    }
+    var creator = await db.getUser(_class.creatorID)
+    _class.creatorName = creator.name 
+    _class.creatorRating = creator.Rating
     //only let someone registered see the zoom link if we are close to a class starting
     if(_class.creatorID != session.id && _class.startTime.getTime() - new Date().getTime() < 30 * 60000){
         //check if registered
-        var user = await db.getUser(session.id)
-        if(user.registeredClasses.indexOf(_class.classID) > -1){
+       
+        if(registeredClasses.indexOf(_class.classID) > -1){
             //user is registered
             access = true
         }
@@ -27,6 +35,7 @@ export async function GET(request){
     if(!(_class.creatorID == session.id || access)){
         _class.zoomLink = undefined
     }
+    _class.cost = parseInt(_class.cost)
     return new Response(JSON.stringify(_class),{
         status:200,
         headers: {'Content-Type':'application/json'}

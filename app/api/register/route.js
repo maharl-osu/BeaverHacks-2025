@@ -4,6 +4,39 @@ import {User} from "../../backend/user"
 import {cookies} from 'next/headers'
 import {getIronSession} from 'iron-session'
 import {defaultSession, sessionOptions} from "../lib"
+import { undefined } from "../getClasses/route";
+
+export async function GET(request){
+    var db = await Database.getDatabase()
+    const session = await getIronSession(await cookies(),sessionOptions)
+    if(!session.isLoggedIn){
+        return new Response("not logged in",{"status":400})
+    }
+    //var dummyClass = new Class(1,1,"This is a test class for testing","4/5",60*12,60*13,"https://ZOOMLINKHERE",100)
+    var classes = await db.getClasses() 
+    var toReturn = []
+    for(var _class of classes){
+        //check if you have access to the zoomLink
+        var access = false
+        //only let someone registered see the zoom link if we are close to a class starting
+        if(_class.creatorID != session.id){
+            //check if registered
+            var user = await db.getUser(session.id)
+            if(user.registeredClasses.indexOf(_class.classID) > -1){
+                //user is registered
+                access = true
+            }
+        }
+        //remove the zoom link if you arent registered or hosting an event
+        if(_class.creatorID == session.id || access){
+            toReturn.push(_class)
+        }
+    }
+    return new Response(JSON.stringify(toReturn),{
+        status:200,
+        headers: {'Content-Type':'application/json'}
+    })
+}
 
 /*
 body{
@@ -28,7 +61,7 @@ export async function POST(request){
         await db.saveUser(user)
         return new Response("registered",{"status":200})
     }else{
-        return new Response("not enough credits",{"status":400})
+        return new Response("not enough credits",{"status":402})
     }
 }
 
