@@ -2,12 +2,16 @@ import { useEffect, useRef, useState } from "react"
 import Rating from "./Rating"
 import Review from "./Review"
 import InputRating from "./InputRating"
+import { toast } from "sonner"
 
 export default function({viewedProfile, setViewedProfile}) {
-    
+
     let [user, setUser] = useState(null)
 
     let [inputRating, setInputRating] = useState(3)
+    let [toggleRender, setToggleRender] = useState(true)
+
+    let debounce = false
 
     let textRef = useRef()
 
@@ -26,7 +30,7 @@ export default function({viewedProfile, setViewedProfile}) {
                 setUser(body)
             })()
         }
-    }, [viewedProfile])
+    }, [viewedProfile, toggleRender])
 
     if (viewedProfile == null)
         return
@@ -39,8 +43,48 @@ export default function({viewedProfile, setViewedProfile}) {
         )
     }
 
-    function postReview() {
+    async function postReview() {
+        if (debounce) {return}
+        debounce = true
+        let text = textRef.current?.value
 
+        if (text == null) {
+            toast("Something Went Wrong", {description: "Please Try Again."})
+            debounce = false
+            return
+        } else if (text == "") {
+            toast("Incomplete Form", {description: "Please Fill Out All Fields."})
+            debounce = false
+            return
+        }
+
+        try {
+            const res = await fetch("/api/review", {
+                method: "POST",
+                body: JSON.stringify({
+                    starRating: inputRating,
+                    text: text,
+                    target: viewedProfile
+                })
+            })
+
+            if (res.status == 200) {
+                setToggleRender(!toggleRender)
+
+                toast("Posted Review")
+                setTimeout(() => {
+                    debounce = false
+                }, 2000)
+            } else {
+                toast("Something Went Wrong", {description: "Please Try Again."})
+                debounce = false
+            }
+
+        } catch (e) {
+            console.log(e)
+            toast("Something Went Wrong", {description: "Please Try Again."})
+            debounce = false
+        }
     }
 
     function renderUser() {
@@ -55,13 +99,13 @@ export default function({viewedProfile, setViewedProfile}) {
                     <div>
                         <InputRating rating={inputRating} setRating={setInputRating} />
                     </div>
-                    <button className="rounded-sm bg-green-700 hover:bg-green-800 active:bg-green-900 p-1 shadow-sm shadow-black">
+                    <button onClick={postReview} className="rounded-sm bg-green-700 hover:bg-green-800 active:bg-green-900 p-1 shadow-sm shadow-black">
                         Post Review
                     </button>
                 </div>
                 
                 <h4 className="text-2xl w-full text-center mt-2">Reviews ({user.reviews.length})</h4>
-                <div className="grid grid-cols-1 gap-5 overflow-y-scroll">
+                <div className="grid grid-cols-1 gap-5 max-h-[calc(100%-400px)] overflow-y-scroll">
                     {user.reviews.map((val, idx) => {
                         return <Review key={idx} data={val} />
                     })}
