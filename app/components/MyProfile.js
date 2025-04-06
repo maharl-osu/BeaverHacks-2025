@@ -212,7 +212,12 @@ export default function({onRemove}) {
         debounce = false
     }
 
-    return (
+    return  (teaching == null) ? 
+        (<div className="flex items-center justify-center h-full">
+            <img src="/loading.png" className="animate-spin w-80"></img>
+        </div>
+        )
+    :(
         <div className={"p-20"}>
             <h1 className="text-5xl mb-10">My Profile</h1>
 

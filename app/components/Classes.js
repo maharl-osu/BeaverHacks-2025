@@ -62,7 +62,10 @@ export default function({onRegister, filter}) {
     }, [filter])
 
     function loading() {
-        return <div>Loading...</div>
+        return (<div className="flex items-center justify-center h-full w-full">
+            <img src="/loading.png" className="animate-spin w-80"></img>
+        </div>
+        )
     }
 
     async function register(classID, eventidx) {
@@ -149,7 +152,7 @@ export default function({onRegister, filter}) {
     }
 
     return (
-      <div className={"w-full flex flex-wrap "}>
+      <div className={"w-full flex flex-wrap " + (events == null ? "h-full" : "")}>
         {events == null ? loading() : displayClasses()}
         {detailEventIdx != null && displayDetails()}
       </div>
