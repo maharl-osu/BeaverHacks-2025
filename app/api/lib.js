@@ -18,3 +18,11 @@ export const sessionOptions = {
 export function sleep() {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+//params: [User]
+export async function registrationTotals(users){
+    var totals = {}
+    for(var user of users){
+        var classes = users.registeredClasses
+    }
+}
