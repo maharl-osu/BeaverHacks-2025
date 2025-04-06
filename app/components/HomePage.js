@@ -89,7 +89,7 @@ export default function() {
     }
 
     return (
-        <div className="grid grid-cols-[min(300px,30%)_1fr] items-center justify-items-center min-h-screen gap-16 font-[family-name:var(--font-geist-sans)] bg-orange-900">
+        <div className="grid grid-cols-[min(300px,30%)_1fr] items-center justify-items-center gap-4 min-h-screen font-[family-name:var(--font-geist-sans)] bg-orange-900">
         <div className="bg-gray-95 shadow-lg shadow-black w-full h-[100vh] self-start sticky top-0 bg-gray-800">
             <h1 className="text-4xl text-center mt-4 font-serif">
                 SkillLeaf
