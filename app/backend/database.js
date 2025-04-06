@@ -29,6 +29,10 @@ export class Database{
     } 
 
     async saveUser(user){
+        var database = await Database.getDatabase()
+        if(Database.database == undefined){
+            throw "Database has not been loaded yet"
+        }
         const docRef = database.db.collection("users").doc(user.userID.toString())
         var toSave = {  
             "userID" : user.userID,

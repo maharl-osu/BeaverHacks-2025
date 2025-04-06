@@ -21,14 +21,13 @@ data:
     "name":
     "creatorID" : 
     "description" : 
-    "date" : 
     "startTime" : 
     "endTime": 
     "zoomLink": 
     "cost":
 }
 
-example usage: await fetch("http://localhost:3000/api/class",{method: "POST",body: JSON.stringify({"creatorID":2,"description":"test desc", "date":"4/5","startTime":60,"endTime":120,"zoomLink":"TEST LINK", "cost":100})}) */
+example usage: await fetch("http://localhost:3000/api/class",{method: "POST",body: JSON.stringify({"name":"test","creatorID":2,"description":"test desc", ,"startTime":new Date(...),"endTime":new Date(...),"zoomLink":"TEST LINK", "cost":100})}) */
 
 export async function POST(request){
     const body = await request.json()
@@ -38,7 +37,7 @@ export async function POST(request){
     var db = await Database.getDatabase()
     await db.addClass(body)
     return new Response("Created class",{
-        status:201,
+        status:200,
         headers:{'Content-Type':'application/text'}
     })
 }

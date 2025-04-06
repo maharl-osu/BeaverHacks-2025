@@ -19,14 +19,19 @@ export async function POST(request){
     }
     //check if you have enough credits
     var db = await Database.getDatabase()
-    var user = await db.getUser(session.userID)
+    var user = await db.getUser(session.id)
     var _class = await db.getClass(body.classID)
     if(user.credits >= _class.cost){
         user.addCredits(-_class.cost)
-        user.registeredClasses.push(_class.id)
+        user.registeredClasses.push(_class.classID)
+        console.log(user)
         await db.saveUser(user)
         return new Response("registered",{"status":200})
     }else{
         return new Response("not enough credits",{"status":400})
     }
+}
+
+export async function DELETE(){
+    
 }
