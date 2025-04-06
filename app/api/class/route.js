@@ -36,8 +36,6 @@ export async function GET(request){
 
 /*createClass
 request body{
-
-data:
     "name":
     "creatorID" : 
     "description" : 
@@ -51,7 +49,14 @@ example usage: await fetch("http://localhost:3000/api/class",{method: "POST",bod
 
 export async function POST(request){
     const body = await request.json()
-
+    const session = await getIronSession(await cookies(),sessionOptions)
+    if(!session.isLoggedIn){
+        return new Response("not logged in",{
+            status:400,
+            headers:{'Content-Type':'application/text'}
+        })
+    }
+    body.creatorID = session.id
     //var dummyUser = new User(2,body.name)
     //dummyUser.addCredits(200)
     var db = await Database.getDatabase()

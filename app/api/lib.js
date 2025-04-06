@@ -8,7 +8,6 @@ export const defaultSession = {
 };
 
 export const sessionOptions = {
-//TODO: change password
   password: "complex_password_at_least_32_characters_long",
   cookieName: "skill-leaf",
   cookieOptions: {

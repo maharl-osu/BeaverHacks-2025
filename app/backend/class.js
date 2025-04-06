@@ -1,5 +1,4 @@
 
-//todo: dont store duration in class and instead calculate it as needed
 export class Class{
     name = ""
     creatorID = "" //UserID
@@ -17,7 +16,6 @@ export class Class{
         this.description = _description
         this.startTime = new Date(_startTime)
         this.endTime = new Date(_endTime)
-        //TODO: change with date time objects
         this.duration = (this.endTime.getTime() - this.startTime.getTime())/60000
         this.zoomLink = _zoomLink
         this.cost = _cost

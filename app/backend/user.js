@@ -8,8 +8,6 @@ export class User{
     Rating = 5
     reviews = []
     registeredClasses = [] //array of class ids
-//TODO: hashed password
-//TODO: signed up classes and events
 
     constructor(_userID,_username, _name){
         this.userID = _userID

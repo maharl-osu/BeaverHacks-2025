@@ -1,4 +1,4 @@
-//todo: dont store duration in class and instead calculate it as needed
+
 export class Event{
     name = ""
     creatorID = "" //UserID
