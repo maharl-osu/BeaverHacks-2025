@@ -30,7 +30,7 @@ export class Database{
 
     async addUser(data){
         var database = await Database.getDatabase()
-        if(Database.datebase == undefined){
+        if(Database.database == undefined){
             throw "Database has not been loaded yet"
         }
         var userID = await database.db.collection("users").doc("nextID").get()
@@ -50,7 +50,7 @@ export class Database{
         }
         console.log(toSave)
         await docRef.set(toSave)
-        
+        return user
     }
 
     async getUser(userID){
@@ -144,6 +144,31 @@ data:
     }
 
     async addEvent(){
+        var database = await Database.getDatabase()
+        if(Database.database == undefined){
+            throw "Database has not been loaded yet"
+        }
+    }
 
+    async getLoginDetails(userName){
+        var database = await Database.getDatabase()
+        if(Database.database == undefined){
+            throw "Database has not been loaded yet"
+        }
+        const ref = await database.db.collection("hashes").doc(userName).get()
+        if(ref.exists){
+            return ref.data()
+        }
+        return null
+    }
+
+    async setLoginDetails(username,id,hash){
+        var database = await Database.getDatabase()
+        if(Database.database == undefined){
+            throw "Database has not been loaded yet"
+        }
+        const ref = database.db.collection("hashes").doc(username)
+        console.log({"hash":hash,"id":id})
+        await ref.set({"hash":hash,"id":id})
     }
 }
