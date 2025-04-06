@@ -14,15 +14,22 @@ export async function GET(request){
     }
     //var dummyClass = new Class(1,1,"This is a test class for testing","4/5",60*12,60*13,"https://ZOOMLINKHERE",100)
     var classes = await db.getClasses() 
+    var user = await db.getUser(session.id)
+    var registeredClasses = user.registeredClasses
     var toReturn = []
     for(var _class of classes){
         //check if you have access to the zoomLink
         var access = false
+        if(session.isLoggedIn){
+            _class.registered = registeredClasses.indexOf(_class.classID) > -1 
+        }
+        var creator = await db.getUser(_class.creatorID)
+        _class.creatorName = creator.name 
+        _class.creatorRating = creator.Rating
         //only let someone registered see the zoom link if we are close to a class starting
         if(_class.creatorID != session.id){
             //check if registered
-            var user = await db.getUser(session.id)
-            if(user.registeredClasses.indexOf(_class.classID) > -1){
+            if(registeredClasses.indexOf(_class.classID) > -1){
                 //user is registered
                 access = true
             }
@@ -50,10 +57,17 @@ export async function POST(request){
     if(!session.isLoggedIn){
         return new Response("not logged in",{"status":400})
     }
+    
     //check if you have enough credits
     var db = await Database.getDatabase()
     var user = await db.getUser(session.id)
     var _class = await db.getClass(body.classID)
+    //stop people from registering if they are inelligible
+    if(session.id == _class.creatorID || user.registeredClasses.indexOf(_class.classID) > -1){
+        return new Response("not logged in",{"status":409})
+    }
+
+
     if(user.credits >= _class.cost){
         user.addCredits(-_class.cost)
         user.registeredClasses.push(_class.classID)
@@ -78,11 +92,16 @@ export async function DELETE(request){
     if(!session.isLoggedIn){
         return new Response("not logged in",{"status":400})
     }
-    //check if you have enough credits
+    
+    
     var db = await Database.getDatabase()
     var user = await db.getUser(session.id)
     var _class = await db.getClass(body.classID)
-
+    //check if you are registered for this class
+    if(user.registeredClasses.indexOf(_class.classID) == -1){
+        return new Response("not registered",{"status":409})
+    }
+    //check if you have enough credits
     user.addCredits(_class.cost)
     var index = user.registeredClasses.indexOf(_class.classID)
     if(index > -1){

@@ -12,7 +12,6 @@ export async function GET(request){
     var classes = await db.getClasses() 
     var user = await db.getUser(session.id)
     var registeredClasses = user.registeredClasses
-    var toReturn
     //console.log(session)
     for(var _class of classes){
         //check if you have access to the zoomLink
